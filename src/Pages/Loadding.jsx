@@ -1,9 +1,11 @@
+import Lottie from "lottie-react"
+import car from "../LottieFiles/carLoadding.json"
 
 
 function Loadding() {
   return (
-    <div>
-      
+    <div className="w-full h-screen flex justify-center items-center">
+      <Lottie animationData={car} />
     </div>
   )
 }

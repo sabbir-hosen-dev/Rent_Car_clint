@@ -6,11 +6,24 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 import { ThemeContext } from '../../Context/ThemeContext';
+import useAuthContext from '../../Hook/useAuthContext';
+import toast from 'react-hot-toast';
 
 function Navbar() {
   const [openMenu, setMenu] = useState(false);
   const [isSticky, setSticky] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
+  const {user,logOut} = useAuthContext();
+
+  // handle logout 
+
+  const handleLogOut = () => {
+    logOut()
+    .then(() => {
+      toast.success("user Log Out")
+    })
+    .catch(err => toast.error(err.message))
+  }
 
   // Handle scroll to add blur effect to the navbar
   useEffect(() => {
@@ -28,6 +41,7 @@ function Navbar() {
       className={`${
         isSticky ? 'backdrop-blur-lg shadow-lg fixed ' : ''
       } top-0 left-0 w-full z-50 border-b border-gray-200 transition-all`}>
+       
       <div className="wrap">
         <div className="">
           <div className="wrap flex flex-wrap items-center justify-between mx-auto p-4">
@@ -85,7 +99,28 @@ function Navbar() {
                   onClick={() =>{ setTheme(prev => !prev), setMenu(false)}}>
                   {theme ? <BiMoon  /> : <BiSun />}
                 </div>
-                <Link to="/login" className="btn">Login</Link>
+                {
+                user.email ? <Link
+                className='m-auto flex gap-3 flex-col items-center'
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={user?.name}
+              >
+                {user?.photo ? (
+                  <img
+                    className="w-10 rounded-full"
+                    src={user.photo}
+                    alt="User"
+                  />
+                ) : (
+                  <div className="w-10 h-10 flex justify-center items-center bg-pin rounded-full">
+                    <h1 className="font-bold text-white text-2xl">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </h1>
+                  </div>
+                )}
+                 <Link  onClick={() => {setMenu(false), handleLogOut()}} to="/login" className="my-btn">Log Out</Link>
+              </Link> :   <Link  onClick={() => setMenu(false)} to="/login" className="my-btn">Login</Link>
+              }
               </div>
             </div>
             <div className=" hidden lg:flex items-center gap-3">
@@ -94,7 +129,30 @@ function Navbar() {
                 onClick={() =>{ setTheme(prev => !prev), setMenu(false)}}>
                 {theme ? <BiMoon /> : <BiSun />}
               </div>
-              <Link to="/login" className="btn">Login</Link>
+              {
+                user.email ? <Link
+                className='m-auto flex  justify-center items-center gap-3'
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={user?.name}
+              >
+                
+                {user?.photo ? (
+                  <img
+                    className="w-10 rounded-full"
+                    src={user.photo}
+                    alt="User"
+                  />
+                ) : (
+                  <div className="w-10 h-10 flex justify-center items-center bg-pin rounded-full">
+                    <h1 className="font-bold text-white text-2xl">
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </h1>
+                  </div>
+                )}
+                 <Link  onClick={() => {setMenu(false),handleLogOut()}} to="/login" className="my-btn">Log Out</Link>
+              </Link> :  <Link  onClick={() => setMenu(false)} to="/login" className="my-btn">Login</Link>
+              }
+             
             </div>
           </div>
         </div>
