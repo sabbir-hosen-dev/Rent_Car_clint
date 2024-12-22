@@ -11,6 +11,9 @@ export default {
         bg: "rgba(var(--bg))",
         text: "rgba(var(--text))",
         primary: "rgba(var(--primary))",
+        input : "rgba(var(--input))",
+        blog:   "rgba(var(--blog))",
+        card:   "rgba(var(--card))"
       },
     },
   },

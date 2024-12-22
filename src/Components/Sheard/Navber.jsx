@@ -85,7 +85,7 @@ function Navbar() {
                   onClick={() => setTheme(prev => !prev)}>
                   {theme ? <BiMoon /> : <BiSun />}
                 </div>
-                <div className="btn">Login</div>
+                <Link to="/login" className="btn">Login</Link>
               </div>
             </div>
             <div className=" hidden lg:flex items-center gap-3">
@@ -94,7 +94,7 @@ function Navbar() {
                 onClick={() => setTheme(prev => !prev)}>
                 {theme ? <BiMoon /> : <BiSun />}
               </div>
-              <div className="btn">Login</div>
+              <Link to="/login" className="btn">Login</Link>
             </div>
           </div>
         </div>

@@ -1,13 +1,13 @@
-import Navber from "../Components/Sheard/Navber"
-
+import { Outlet } from 'react-router-dom';
+import Navber from '../Components/Sheard/Navber';
 
 function MainLayaut() {
   return (
     <>
-    <Navber />
-    
+      <Navber />
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default MainLayaut
+export default MainLayaut;

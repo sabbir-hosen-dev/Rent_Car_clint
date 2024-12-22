@@ -8,6 +8,7 @@ import AddCar from '../Pages/AddCar';
 import MyBookings from '../Pages/MyBOokings';
 import Login from '../Pages/AuthPate/Login';
 import SignUp from '../Pages/AuthPate/SIgnUp';
+import MyCars from './../Pages/MyCars';
 
 const route = createBrowserRouter([
   {
@@ -40,11 +41,19 @@ const route = createBrowserRouter([
         ),
       },
       {
+        path: '/my-car',
+        element: (
+          <PrivetRoute>
+            <MyCars />
+          </PrivetRoute>
+        ),
+      },
+      {
         path : "/login",
         element: <Login /> 
       },
       {
-        path : "/sign-up",
+        path : "/signup",
         element: <SignUp /> 
       }
     ],
