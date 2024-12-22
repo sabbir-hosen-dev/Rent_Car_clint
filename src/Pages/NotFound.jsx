@@ -3,7 +3,7 @@
 function NotFound() {
   return (
     <div>
-      
+      page not fount
     </div>
   )
 }
