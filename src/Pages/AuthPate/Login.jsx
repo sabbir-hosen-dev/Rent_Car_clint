@@ -162,7 +162,7 @@ function Login() {
               
               <button
                 type="submit"
-                className="w-full bg-pin text-white hover:bg-pin/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full bg-primary text-white hover:bg-primary/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Login
               </button>

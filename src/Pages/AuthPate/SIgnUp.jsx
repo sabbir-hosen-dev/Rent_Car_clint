@@ -9,6 +9,8 @@ import { updateProfile } from 'firebase/auth';
 import { Helmet } from 'react-helmet';
 import useAuthContext from '../../Hook/useAuthContext';
 import auth from '../../Firebase/Firebase.config';
+import signUPAnimation from '../../LottieFiles/signup.json';
+import Lottie from 'lottie-react';
 
 function SignUp() {
   const { createUser, setUser, user, googleSignIn } = useAuthContext();
@@ -29,12 +31,12 @@ function SignUp() {
           photo: photoURL,
         });
 
-        Swal.fire({
-          title: 'Sign In Successful!',
-          text: 'You’ve signed in with Google. Welcome back!',
-          icon: 'success',
-          confirmButtonText: 'Proceed',
-        });
+        // Swal.fire({
+        //   title: 'Sign In Successful!',
+        //   text: 'You’ve signed in with Google. Welcome back!',
+        //   icon: 'success',
+        //   confirmButtonText: 'Proceed',
+        // });
 
         navigate('/');
       })
@@ -113,18 +115,12 @@ function SignUp() {
     console.log(name, email, password, confirmPassword);
   };
   return (
-    <section
-      className="bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://i.pinimg.com/originals/5d/c3/50/5dc350fb8ef7a2c3dbdb1e3d4bc44083.gif')",
-      }} // Replace with your actual image path
-    >
+    <section className="bg-cover bg-center">
       <Helmet>
         <title>Sign Up | Play Rev</title>
       </Helmet>
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full border-neutral  rounded-lg shadow dark:border sm:max-w-md xl:p-0 bg-bg">
+      <div className=" wrap grid my-20 py-10 border-border grid-cols-1 border rounded-xl shadow-stone-500 md:grid-cols-2 items-center justify-center gap-5">
+        <div className="w-full  mx-auto  rounded-lg shadow dark:shadow-slate-200 sm:max-w-md xl:p-0 bg-bg">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-text md:text-2xl ">
               Create an account
@@ -266,7 +262,7 @@ function SignUp() {
 
               <button
                 type="submit"
-                className="w-full bg-pin text-text hover:bg-pin/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
+                className="w-full bg-primary text-text hover:bg-primary/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
                 Create an account
               </button>
               <button
@@ -286,6 +282,9 @@ function SignUp() {
               </p>
             </form>
           </div>
+        </div>
+        <div className="">
+          <Lottie animationData={signUPAnimation} />
         </div>
       </div>
     </section>

@@ -63,27 +63,27 @@ function Navbar() {
                 openMenu ? 'block' : 'hidden'
               } w-full lg:block lg:w-auto`}>
               <ul className="font-medium flex flex-col justify-center items-center lg:border-0 p-4 lg:p-0 lg:px-4 mt-4 border border-gray-100 rounded-lg  lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 text-text gap-3 ">
-                <NavLink to="/" className="links">
+                <NavLink onClick={() => setMenu(false)} to="/" className="links">
                   Home
                 </NavLink>
-                <NavLink to="/available-cars" className="links">
+                <NavLink onClick={() => setMenu(false)} to="/available-cars" className="links">
                   Avaliable
                 </NavLink>
-                <NavLink to="/add-car" className="links">
+                <NavLink onClick={() => setMenu(false)} to="/add-car" className="links">
                   Add Car
                 </NavLink>
-                <NavLink to="/my-car" className="links">
+                <NavLink onClick={() => setMenu(false)} to="/my-car" className="links">
                   My Car
                 </NavLink>
-                <NavLink to="/my-bokings" className="links">
+                <NavLink onClick={() => setMenu(false)} to="/my-bokings" className="links">
                  My Bokings
                 </NavLink>
               </ul>
               <div className=" lg:hidden flex flex-col gap-3">
                 <div
                   className="cursor-pointer mx-auto mt-3 text-text hover:text/80 transition-colors duration-300"
-                  onClick={() => setTheme(prev => !prev)}>
-                  {theme ? <BiMoon /> : <BiSun />}
+                  onClick={() =>{ setTheme(prev => !prev), setMenu(false)}}>
+                  {theme ? <BiMoon  /> : <BiSun />}
                 </div>
                 <Link to="/login" className="btn">Login</Link>
               </div>
@@ -91,7 +91,7 @@ function Navbar() {
             <div className=" hidden lg:flex items-center gap-3">
               <div
                 className="cursor-pointer text-text hover:text/80 transition-colors duration-300"
-                onClick={() => setTheme(prev => !prev)}>
+                onClick={() =>{ setTheme(prev => !prev), setMenu(false)}}>
                 {theme ? <BiMoon /> : <BiSun />}
               </div>
               <Link to="/login" className="btn">Login</Link>

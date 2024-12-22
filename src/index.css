@@ -15,3 +15,6 @@
   border-bottom: 2px solid rgb(255, 76, 49);
 }
 
+.my-btn{
+  @apply bg-primary  px-5 py-2 rounded-md text-white font-semibold transition-all duration-300 hover:bg-primary/50
+}
