@@ -9,8 +9,9 @@ import { ThemeContext } from '../../Context/ThemeContext';
 import useAuthContext from '../../Hook/useAuthContext';
 import toast from 'react-hot-toast';
 
-function Navbar() {
-  const [openMenu, setMenu] = useState(false);
+// eslint-disable-next-line react/prop-types
+function Navbar({  openMenu, setMenu}) {
+
   const [isSticky, setSticky] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
   const { user, logOut } = useAuthContext();
@@ -53,7 +54,7 @@ function Navbar() {
             </Link>
             <button
               onClick={() => setMenu(!openMenu)}
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-bg"
+              className="inline-flex items-center z-50 p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-bg"
               aria-expanded={openMenu}>
               <span className="sr-only">Open main menu</span>
               <svg
@@ -72,6 +73,7 @@ function Navbar() {
               </svg>
             </button>
             <div
+             onClick={() => setMenu(false)}
               className={`${
                 openMenu ? 'block' : 'hidden'
               } w-full lg:block lg:w-auto`}>

@@ -6,14 +6,19 @@ import { ThemeContextProvider } from './Context/ThemeContext';
 import { RouterProvider } from 'react-router-dom';
 import route from './Routes/Routes';
 import { AuthContextProvider } from './Context/AuthContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthContextProvider>
-      <ThemeContextProvider>
-        <RouterProvider router={route} />
-      </ThemeContextProvider>
-    </AuthContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <ThemeContextProvider>
+          <RouterProvider router={route} />
+        </ThemeContextProvider>
+      </AuthContextProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

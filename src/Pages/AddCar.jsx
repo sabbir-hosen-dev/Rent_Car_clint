@@ -52,7 +52,7 @@ function AddCar() {
 
     // Set errors and stop submission if there are validation errors
     setErrors(validationErrors);
-    console.log(validationErrors)
+
 
     if (Object.keys(validationErrors).length > 0) {
       return;
@@ -66,7 +66,7 @@ function AddCar() {
     const postDate = new Date();
 
     const cardData = { ...newCar, user, bookingCount, postDate };
-    console.log(cardData)
+    // console.log(cardData)
     // Simulate saving to the database
     try {
       axiosInt.post('/add-car', cardData);
