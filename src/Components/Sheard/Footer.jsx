@@ -10,8 +10,8 @@ const Footer = () => {
           <Link to="/" className="flex items-center  gap-3">
             <img className="w-[100px]" src={logo} alt="" />
             <h2 className="font-bold text-2xl">
-              R<span className="text-primary">en</span>TC
-              <span className="text-primary">ar</span>
+              R<span className="text-primaryP">en</span>TC
+              <span className="text-primaryP">ar</span>
             </h2>
           </Link>
         </div>
@@ -22,28 +22,28 @@ const Footer = () => {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text hover:text-primary transition-all duration-200">
+            className="text-text hover:text-primaryP transition-all duration-200">
             <FaFacebook size={28} />
           </a>
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text hover:text-primary transition-all duration-200">
+            className="text-text hover:text-primaryP transition-all duration-200">
             <FaInstagram size={28} />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text hover:text-primary transition-all duration-200">
+            className="text-text hover:text-primaryP transition-all duration-200">
             <FaTwitter size={28} />
           </a>
           <a
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-text hover:text-primary transition-all duration-200">
+            className="text-text hover:text-primaryP transition-all duration-200">
             <FaLinkedin size={28} />
           </a>
         </div>

@@ -11,7 +11,7 @@ function NotFound() {
         />
       </div>
       <div className="flex flex-col gap-5 ">
-        <h1 className="m-auto font-bold text-3xl text-primary ">
+        <h1 className="m-auto font-bold text-3xl text-primaryP ">
           Page Not Found
         </h1>
         <Link to="/" className="my-btn inline-block m-auto ">GO HOME</Link>

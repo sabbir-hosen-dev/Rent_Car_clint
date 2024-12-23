@@ -185,7 +185,7 @@ function AddCar() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/80"
+            className="w-full bg-primaryP text-white py-2 rounded-lg hover:bg-primaryP/80"
           >
             Save Car
           </button>

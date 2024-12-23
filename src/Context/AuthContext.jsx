@@ -6,41 +6,49 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-} from "firebase/auth";
+} from 'firebase/auth';
 
-import { createContext, useEffect, useState } from "react";
-import auth from "../Firebase/Firebase.config";
+import { createContext, useEffect, useState } from 'react';
+import auth from '../Firebase/Firebase.config';
+import { axiosInt } from '../Hook/useAxios';
 
 const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({
-    name: "",
-    email: "",
-    photo: "",
+    name: '',
+    email: '',
+    photo: '',
   });
 
-  const [loadding,setLoadding]  = useState(true);
+  const [loadding, setLoadding] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (curent) => {
+    const unsubscribe = onAuthStateChanged(auth, curent => {
       if (curent) {
-        
-        setUser({
-          ...user,
+        const newUser = {
           name: curent.displayName,
           email: curent.email,
           photo: curent.photoURL,
+        };
+
+        setUser({
+          ...newUser,
         });
-        setLoadding(false)
+
+        axiosInt
+          .post('/jwt', newUser)
+          .catch(err => console.log(err.message));
+
+        setLoadding(false);
       } else {
         setUser({
           ...user,
-          name: "",
-          email: "",
-          photo: "",
+          name: '',
+          email: '',
+          photo: '',
         });
-        setLoadding(false)
+        setLoadding(false);
       }
     });
 
@@ -55,14 +63,13 @@ const AuthContextProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const createUser = (email,password) => {
-    return createUserWithEmailAndPassword(auth,email,password);
-  }
+  const createUser = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
-
-  const loginUser = (email,password) => {
-   return signInWithEmailAndPassword(auth,email,password)
-  }
+  const loginUser = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
   const logOut = () => {
     return signOut(auth);
@@ -74,7 +81,7 @@ const AuthContextProvider = ({ children }) => {
     googleSignIn,
     createUser,
     loginUser,
-    logOut
+    logOut,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

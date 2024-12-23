@@ -17,7 +17,7 @@ function SpecialOffers() {
   ];
 
   return (
-    <section className="py-16 bg-bg">
+    <section className="py-16 bg-bgB">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-text mb-12">
           Special Offers
@@ -36,7 +36,7 @@ function SpecialOffers() {
               <div className="p-6">
                 <h3 className="text-xl font-bold text-text mb-4">{offer.title}</h3>
                 <p className="text-sm text-gray-500 mb-6">{offer.description}</p>
-                <button className="px-6 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary/50">
+                <button className="px-6 py-2 bg-primaryP text-white font-medium rounded-lg hover:bg-primaryP/50">
                   {offer.buttonText}
                 </button>
               </div>

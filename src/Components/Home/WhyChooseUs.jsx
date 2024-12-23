@@ -25,7 +25,7 @@ function WhyChooseUs() {
   ];
 
   return (
-    <section className="bg-bg py-16">
+    <section className="bg-bgB py-16">
       <div className="wrap  px-4">
         <h2 className="text-3xl md:text-4xl font-bold text-center text-text mb-12">
           Why Choose Us?

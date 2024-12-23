@@ -11,6 +11,7 @@ import useAuthContext from '../../Hook/useAuthContext';
 import auth from '../../Firebase/Firebase.config';
 import signUPAnimation from '../../LottieFiles/signup.json';
 import Lottie from 'lottie-react';
+import toast from 'react-hot-toast';
 
 function SignUp() {
   const { createUser, setUser, user, googleSignIn } = useAuthContext();
@@ -87,30 +88,26 @@ function SignUp() {
 
     setMessage(null);
 
-    createUser(email, password).then(() => {
-      setUser({
-        ...user,
-        name: name,
-        email: email,
-        photo: photo,
-      });
+    createUser(email, password)
+      .then(() => {
+        setUser({
+          ...user,
+          name: name,
+          email: email,
+          photo: photo,
+        });
 
-      updateProfile(auth.currentUser, {
-        displayName: name,
-        photoURL: photo,
-      });
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: photo,
+        });
 
-      // Swal.fire({
-      //   title: "Account Created Successfully!",
-      //   text: `Welcome to ${name}! Start exploring now.`,
-      //   icon: "success",
-      //   confirmButtonText: "Let's Go!",
-      // });
+        toast.success('Account Created Successfully!');
+        form.reset();
 
-      form.reset();
-
-      navigate('/login');
-    });
+        navigate('/login');
+      })
+      .catch(err => toast.error(err.message));
 
     console.log(name, email, password, confirmPassword);
   };
@@ -120,7 +117,7 @@ function SignUp() {
         <title>Sign Up | Play Rev</title>
       </Helmet>
       <div className=" wrap grid my-20 py-10 border-border grid-cols-1 border rounded-xl shadow-stone-500 md:grid-cols-2 items-center justify-center gap-5">
-        <div className="w-full  mx-auto  rounded-lg shadow dark:shadow-slate-200 sm:max-w-md xl:p-0 bg-bg">
+        <div className="w-full  mx-auto  rounded-lg shadow dark:shadow-slate-200 sm:max-w-md xl:p-0 bg-bgB">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-text md:text-2xl ">
               Create an account
@@ -262,7 +259,7 @@ function SignUp() {
 
               <button
                 type="submit"
-                className="w-full bg-primary text-text hover:bg-primary/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
+                className="w-full bg-primaryP text-text hover:bg-primaryP/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
                 Create an account
               </button>
               <button

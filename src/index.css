@@ -4,7 +4,7 @@
 
 
 .links{
-  @apply block py-2 px-3 text-text rounded hover:bg-slate-600 md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 ;
+  @apply block py-2 px-3 text-text rounded hover:bg-slate-600 md:hover:bg-transparent md:border-0 md:hover:text-primaryP md:p-0 ;
 }
 
 .wrap{
@@ -16,7 +16,7 @@
 }
 
 .my-btn{
-  @apply bg-primary text-center  px-5 py-2 rounded-md text-white font-semibold transition-all duration-300 hover:bg-primary/50
+  @apply bg-primaryP text-center  px-5 py-2 rounded-md text-white font-semibold transition-all duration-300 hover:bg-primaryP/50
 }
 .inp {
   width: 100% !important;

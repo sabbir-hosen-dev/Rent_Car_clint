@@ -2,12 +2,15 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast'; // Toast notifications
 import DatePicker from 'react-datepicker'; // Date Picker for availability
 import 'react-datepicker/dist/react-datepicker.css';
+import useAuthContext from './../Hook/useAuthContext';
+import { axiosInt } from '../Hook/useAxios';
 
 function AddCar() {
   const [availability, setAvailability] = useState(null);
   const [errors, setErrors] = useState({});
+  const { user } = useAuthContext();
 
-  const handleSubmit = async e => {
+  const handleSubmit =  e => {
     e.preventDefault();
     const form = e.target;
 
@@ -24,31 +27,53 @@ function AddCar() {
     };
 
     // Validate the form fields
-    const validationErrors = {};
-    if (!newCar.model) validationErrors.model = 'Car model is required.';
-    if (!newCar.price || isNaN(newCar.price))
-      validationErrors.price = 'A valid price is required.';
-    if (!newCar.availability)
-      validationErrors.availability = 'Availability date is required.';
-    if (!newCar.registration)
-      validationErrors.registration = 'Registration number is required.';
-    if (!newCar.image) validationErrors.image = 'Image URL is required.';
-    if (!newCar.location) validationErrors.location = 'Location is required.';
 
+    const validationErrors = {};
+    if (newCar.model.split(' ').length < 2) {
+      validationErrors.model = 'Car model must contain at least two words.';
+    }
+    if (newCar.description.split(' ').length < 5) {
+      validationErrors.description = 'Description must contain at least five words.';
+    }
+    if (newCar.features.split(',').length < 2) {
+      validationErrors.features = 'Features must contain at least two features, separated by commas.';
+    }
+    if (!/^\d+(\.\d+)?$/.test(newCar.price) || parseFloat(newCar.price) <= 0) {
+      validationErrors.price = 'Price must be a positive number.';
+    }
+    if (
+      !/^(https?:\/\/[^\s/$.?#].[^\s]*)$/i.test(newCar.image)
+    ) {
+      validationErrors.image = 'Image must be a valid URL.';
+    }
+    if (!newCar.availability) {
+      validationErrors.availability = 'Please select an availability date.';
+    }
+
+    // Set errors and stop submission if there are validation errors
     setErrors(validationErrors);
+    console.log(validationErrors)
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
 
     if (Object.keys(validationErrors).length > 0) {
       toast.error('Please fill in all required fields.');
       return;
     }
+    const bookingCount = 0;
+    const postDate = new Date();
 
+    const cardData = { ...newCar, user, bookingCount, postDate };
+    console.log(cardData)
     // Simulate saving to the database
     try {
-      console.log('Car details submitted:', newCar); // Log for testing
+      axiosInt.post('/add-car', cardData);
       toast.success('Car added successfully!');
-      form.reset(); // Reset the form
-      setAvailability(null); // Clear the date picker
-      setErrors({}); // Clear errors
+      form.reset();
+      setAvailability(null);
+      setErrors({});
     } catch (error) {
       console.error('Error adding car:', error);
       toast.error('Failed to add car. Please try again.');
@@ -57,8 +82,8 @@ function AddCar() {
 
   return (
     <section className="flex justify-center items-center py-10">
-      <div className="w-full max-w-lg bg-card shadow-lg rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">Add New Car</h1>
+      <div className="w-full max-w-lg bg-bgB shadow-lg rounded-lg p-6">
+        <h1 className="text-2xl text-text font-bold mb-6">Add New Car</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Car Model */}
           <div>
@@ -68,6 +93,7 @@ function AddCar() {
               Car Model
             </label>
             <input
+              required
               type="text"
               name="model"
               id="model"
@@ -88,6 +114,7 @@ function AddCar() {
                 Daily Rental Price
               </label>
               <input
+                required
                 type="number"
                 name="price"
                 id="price"
@@ -107,6 +134,7 @@ function AddCar() {
                 Registration Number
               </label>
               <input
+                required
                 type="text"
                 name="registration"
                 id="registration"
@@ -121,7 +149,7 @@ function AddCar() {
             </div>
           </div>
 
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3">
             {/* Availability Date */}
             <div className="w-full">
               <label
@@ -130,9 +158,10 @@ function AddCar() {
                 Availability Date
               </label>
               <DatePicker
+                required
                 selected={availability}
                 onChange={date => setAvailability(date)}
-                className="bg-input min-w-[210px]  border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                className="bg-input min-w-[224px]  border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholderText="Select Availability Date"
               />
               {errors.availability && (
@@ -150,6 +179,7 @@ function AddCar() {
                 Location
               </label>
               <input
+                required
                 type="text"
                 name="location"
                 id="location"
@@ -170,12 +200,16 @@ function AddCar() {
               Features
             </label>
             <input
+              required
               type="text"
               name="features"
               id="features"
               placeholder="e.g., GPS, AC"
               className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
             />
+             {errors.features && (
+              <p className="text-red-500 text-sm mt-1">{errors.features}</p>
+            )}
           </div>
 
           {/* Image URL */}
@@ -186,6 +220,7 @@ function AddCar() {
               Image URL
             </label>
             <input
+              required
               type="url"
               name="image"
               id="image"
@@ -205,17 +240,21 @@ function AddCar() {
               Description
             </label>
             <textarea
+              required
               name="description"
               id="description"
               placeholder="Car Description"
               className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               rows="3"></textarea>
+               {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            )}
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/80">
+            className="w-full bg-primaryP text-white py-2 rounded-lg hover:bg-primaryP/80">
             Save Car
           </button>
         </form>

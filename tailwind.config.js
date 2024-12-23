@@ -8,9 +8,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: "rgba(var(--bg))",
+        bgB: "rgba(var(--bg))",
         text: "rgba(var(--text))",
-        primary: "rgba(var(--primary))",
+        primaryP: "rgba(var(--primary))",
         input : "rgba(var(--input))",
         blog:   "rgba(var(--blog))",
         card:   "rgba(var(--card))"

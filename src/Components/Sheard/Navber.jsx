@@ -47,8 +47,8 @@ function Navbar() {
             <Link to="/" className="flex items-center  gap-3">
               <img className="w-[100px]" src={logo} alt="" />
               <h2 className="font-bold text-2xl">
-                R<span className="text-primary">en</span>TC
-                <span className="text-primary">ar</span>
+                R<span className="text-primaryP">en</span>TC
+                <span className="text-primaryP">ar</span>
               </h2>
             </Link>
             <button
