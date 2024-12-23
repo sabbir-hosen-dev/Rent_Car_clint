@@ -1,165 +1,198 @@
-import { useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuthContext from "../../Hook/useAuthContext";
-import { Helmet } from "react-helmet";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-import animation from "../../LottieFiles/login.json";
-import Lottie from "lottie-react";
-import { toast } from 'react-hot-toast'; // Importing toast
+import { useState } from "react";
+import { toast } from "react-hot-toast"; // Toast notifications
+import DatePicker from "react-datepicker"; // Date Picker for availability
+import "react-datepicker/dist/react-datepicker.css";
 
-function Login() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [eyes, setEyes] = useState(false);
-  const { googleSignIn, setUser, user, loginUser } = useAuthContext();
-  const emailRef = useRef(null);
+function AddCar() {
+  const [availability, setAvailability] = useState(null);
 
-  // Google Sign In
-  const handleGoogle = () => {
-    googleSignIn()
-      .then(user => {
-        const { displayName, photoURL, email } = user.user;
-
-        setUser({
-          ...user,
-          name: displayName,
-          email: email,
-          photo: photoURL
-        });
-
-        toast.success("Successfully logged in with Google!"); // Success toast
-        navigate(`${location?.state?.form || "/"}`);
-      })
-      .catch(err => {
-        console.log(err);
-        toast.error("Google login failed!"); // Error toast
-      });
-  };
-
-  // Form Submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
 
-    loginUser(email, password)
-      .then(data => {
-        const { displayName, email, photoURL } = data.user;
-        setUser({
-          ...user,
-          name: displayName,
-          email: email,
-          photo: photoURL
-        });
+    // Collect data from the form
+    const newCar = {
+      model: form.model.value,
+      price: form.price.value,
+      availability: availability ? availability.toISOString() : null,
+      registration: form.registration.value,
+      features: form.features.value,
+      description: form.description.value,
+      image: form.image.value,
+      location: form.location.value,
+      bookingCount: 0,
+      dateAdded: new Date().toISOString(),
+    };
 
-        toast.success("Login successful!"); // Success toast
-        form.reset();
-        navigate(`${location?.state?.form || "/"}`);
-      })
-      .catch((error) => {
-        console.error("Login error:", error.message);
-        toast.error("Login failed! Please check your credentials."); // Error toast
-      });
+    // Simulate saving to the database
+    try {
+      console.log("Car details submitted:", newCar); // Log for testing
+      toast.success("Car added successfully!");
+      form.reset(); // Reset the form
+      setAvailability(null); // Clear the date picker
+    } catch (error) {
+      console.error("Error adding car:", error);
+      toast.error("Failed to add car. Please try again.");
+    }
   };
 
   return (
-    <section className="bg-cover bg-center flex justify-center items-center">
-      <Helmet>
-        <title>Login | Rent Car</title>
-      </Helmet>
-      <div className="wrap border grid grid-cols-1 justify-center items-center xl:grid-cols-2 my-20 rounded-2xl">
-        <div>
-          <Lottie loop={true} animationData={animation} />
-        </div>
-        <div className="w-full m-auto rounded-lg shadow dark:shadow-stone-300 sm:max-w-md xl:p-0 bg-bg border-base-300">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-text md:text-2xl">
-              Login to your account
-            </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm text-text font-medium"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="name@company.com"
-                  className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  required
-                  ref={emailRef}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-text"
-                >
-                  Password
-                </label>
-                <div className="relative">
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                    {eyes ? (
-                      <AiOutlineEye
-                        onClick={() => setEyes(false)}
-                        className="hover:text-pin"
-                      />
-                    ) : (
-                      <AiOutlineEyeInvisible
-                        onClick={() => setEyes(true)}
-                        className="hover:text-pin"
-                      />
-                    )}
-                  </div>
-                  <input
-                    type={!eyes ? "password" : "text"}
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                    required
-                  />
-                </div>
-                <Link state={{ email: emailRef.current?.value || "" }} to="/reset">
-                  <small className="hover:text-pin/50">Forget Password</small>
-                </Link>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-primary text-white hover:bg-primary/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Login
-              </button>
-              <button
-                type="button"
-                onClick={handleGoogle}
-                className="w-full border border-neutral-400 hover:bg-pin duration-300 hover:border-pin text-text font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center gap-2"
-              >
-                <FcGoogle className="w-5 h-5" />
-                Sign in with Google
-              </button>
-              <p className="text-sm font-light text-text">
-                Don&apos;t have an account?{" "}
-                <Link
-                  to="/signup"
-                  className="font-medium text-primary-600 hover:underline"
-                >
-                  <span className="text-blue-400">Sign Up here</span>
-                </Link>
-              </p>
-            </form>
+    <section className="flex justify-center items-center bg-gray-100 py-10">
+      <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
+        <h1 className="text-2xl font-bold mb-6">Add New Car</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Car Model */}
+          <div>
+            <label
+              htmlFor="model"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Car Model
+            </label>
+            <input
+              type="text"
+              name="model"
+              id="model"
+              placeholder="Car Model"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              required
+            />
           </div>
-        </div>
+
+          {/* Daily Rental Price */}
+          <div>
+            <label
+              htmlFor="price"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Daily Rental Price
+            </label>
+            <input
+              type="number"
+              name="price"
+              id="price"
+              placeholder="Price per day"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              required
+            />
+          </div>
+
+          {/* Availability Date */}
+          <div>
+            <label
+              htmlFor="availability"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Availability Date
+            </label>
+            <DatePicker
+              selected={availability}
+              onChange={(date) => setAvailability(date)}
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              placeholderText="Select Availability Date"
+              required
+            />
+          </div>
+
+          {/* Registration Number */}
+          <div>
+            <label
+              htmlFor="registration"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Registration Number
+            </label>
+            <input
+              type="text"
+              name="registration"
+              id="registration"
+              placeholder="Vehicle Registration"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              required
+            />
+          </div>
+
+          {/* Features */}
+          <div>
+            <label
+              htmlFor="features"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Features
+            </label>
+            <input
+              type="text"
+              name="features"
+              id="features"
+              placeholder="e.g., GPS, AC"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label
+              htmlFor="description"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Description
+            </label>
+            <textarea
+              name="description"
+              id="description"
+              placeholder="Car Description"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              rows="3"
+            ></textarea>
+          </div>
+
+          {/* Image URL */}
+          <div>
+            <label
+              htmlFor="image"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Image URL
+            </label>
+            <input
+              type="url"
+              name="image"
+              id="image"
+              placeholder="Image URL"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              required
+            />
+          </div>
+
+          {/* Location */}
+          <div>
+            <label
+              htmlFor="location"
+              className="block mb-2 text-sm text-text font-medium"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              id="location"
+              placeholder="Car Location"
+              className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/80"
+          >
+            Save Car
+          </button>
+        </form>
       </div>
     </section>
   );
 }
 
-export default Login;
+export default AddCar;

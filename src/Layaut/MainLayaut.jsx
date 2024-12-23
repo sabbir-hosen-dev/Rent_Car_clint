@@ -15,7 +15,7 @@ function MainLayaut() {
         <Loadding />
       ) : (
         <>
-        <Tooltip id="my-tooltip" />
+        <Tooltip className="z-50" id="my-tooltip" />
         <Toaster position='top-right' />
         
           <Navber />
