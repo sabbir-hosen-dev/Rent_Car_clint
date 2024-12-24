@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { axiosInt } from '../Hook/useAxios';
 import IsLodding from './IsLodding';
 import DataNotFound from '../Components/DataNotFound';
+import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 const AvailableCars = () => {
   const [view, setView] = useState('grid'); // 'grid' or 'list'
@@ -20,7 +22,7 @@ const AvailableCars = () => {
       .get(`cars`)
       .then(res => {
         setData(res.data);
-        setSortedData(res.data)
+        setSortedData(res.data);
         setLoading(false);
         setError(false);
       })
@@ -76,7 +78,7 @@ const AvailableCars = () => {
         <div className="flex justify-between w-full gap-5 ">
           {/* Sort Options */}
           <select
-            className="select  input input-bordered bg-input text-text"
+            className="select  input input-bordered bg-card text-text"
             onChange={handleSortChange}>
             <option value="date-desc">Newest First</option>
             <option value="date-asc">Oldest First</option>
@@ -88,7 +90,7 @@ const AvailableCars = () => {
           <input
             type="text"
             placeholder="Search by model, brand, or location"
-            className="bg-input w-full max-w-[400px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
+            className="bg-card w-full max-w-[400px] border border-border text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block p-2.5"
             onChange={handleSearch}
           />
 
@@ -118,7 +120,7 @@ const AvailableCars = () => {
         {data?.map(car => (
           <div
             key={car._id}
-            className={`card bg-card shadow-xl border border-border  p-4  flex ${
+            className={`card bg-card shadow-md shadow-input  p-4  flex ${
               view === 'grid' ? 'flex-col' : 'flex-row mb-5 items-center'
             } gap-4 rounded-lg`}>
             {/* Car Image */}
@@ -148,20 +150,20 @@ const AvailableCars = () => {
                 <p className="text-sm ">
                   Availability:{' '}
                   <span className="font-medium">
-                    {new Date(car.availability).toLocaleDateString()}
+                    {format(new Date(car.availability), 'dd/MM/yyyy')}
                   </span>
                 </p>
               </div>
 
               {/* Book Now Button */}
               <div className="mt-4">
-                <button
-                  className={`btn btn-info text-text ${
-                    view === 'list' ? 'inline-block' : 'w-full'
-                  }`}
-                  onClick={() => alert(`Booking ${car.model}`)}>
+                <Link
+                  to={`/cars/${car._id}`}
+                  className={`btn bg-orange-400 text-text ${
+                    view === 'list' ? 'btn-sm' : 'w-full'
+                  }`}>
                   Book Now
-                </button>
+                </Link>
               </div>
             </div>
           </div>

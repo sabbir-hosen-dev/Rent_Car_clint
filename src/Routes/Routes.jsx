@@ -9,6 +9,8 @@ import MyBookings from '../Pages/MyBOokings';
 import Login from '../Pages/AuthPate/Login';
 import SignUp from '../Pages/AuthPate/SIgnUp';
 import MyCars from './../Pages/MyCars';
+import CarDetails from '../Pages/carDetails';
+
 
 const route = createBrowserRouter([
   {
@@ -55,6 +57,10 @@ const route = createBrowserRouter([
       {
         path : "/signup",
         element: <SignUp /> 
+      },
+      {
+        path : "/cars/:id",
+        element: <CarDetails />
       }
     ],
   },

@@ -59,12 +59,12 @@ const MyCarsPage = () => {
   return (
     <>
       {cars && (
-        <div className="bg-blog">
+        <div className="">
           <EditCarModal fetchMycars={fetchMycars} id={edit} />
           <div className="wrap  min-h-screen p-6">
             <div className="mb-4 flex justify-between items-center">
               <select
-                className="select input input-bordered bg-input text-text"
+                className="select input input-bordered bg-card text-text"
                 onChange={handleSortChange}>
                 <option value="date-desc">Newest First</option>
                 <option value="date-asc">Oldest First</option>
