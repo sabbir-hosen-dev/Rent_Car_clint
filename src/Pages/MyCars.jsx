@@ -6,13 +6,16 @@ import { axiosInt } from '../Hook/useAxios';
 import useAuthContext from '../Hook/useAuthContext';
 import IsLodding from './IsLodding';
 import DataNotFound from '../Components/DataNotFound';
+import EditCarModal from '../Components/EditCarModal';
 
 const MyCarsPage = () => {
   const [cars, setCars] = useState(null);
-  const [selectedCar, setSelectedCar] = useState(null);
+  // const [selectedCar, setSelectedCar] = useState(null);
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
-  const [err,setError] = useState(null)
+  const [err,setError] = useState(null);
+  const [edit, setEdit] = useState(null);
+
 
   useEffect(() => {
     fetchMycars();
@@ -36,7 +39,7 @@ const MyCarsPage = () => {
     const sortBy = e.target.value;
     console.log(sortBy);
   };
-  console.log(cars);
+
 
   if (loading) return <IsLodding />;
   if (err) return <DataNotFound />;
@@ -45,6 +48,7 @@ const MyCarsPage = () => {
     <>
       {cars && (
         <div className="bg-blog">
+          <EditCarModal fetchMycars={fetchMycars} id={edit} />
           <div className="wrap  min-h-screen p-6">
             <div className="mb-4 flex justify-between items-center">
               <select
@@ -82,7 +86,7 @@ const MyCarsPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cars && cars.map(car =>  <MyCar setLoading={setLoading} key={car._id} car={car} fetchMycars={fetchMycars} />)}
+                    {cars && cars.map(car =>  <MyCar setEdit={setEdit} setLoading={setLoading} key={car._id} car={car} fetchMycars={fetchMycars} />)}
                   </tbody>
                 </table>
               </div>
