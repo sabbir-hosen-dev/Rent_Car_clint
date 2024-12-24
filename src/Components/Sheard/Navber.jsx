@@ -54,7 +54,7 @@ function Navbar({  openMenu, setMenu}) {
             </Link>
             <button
               onClick={() => setMenu(!openMenu)}
-              className="inline-flex items-center z-50 p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-bg"
+              className="inline-flex items-center z-50 p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-bgB"
               aria-expanded={openMenu}>
               <span className="sr-only">Open main menu</span>
               <svg

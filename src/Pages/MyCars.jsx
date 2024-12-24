@@ -11,7 +11,7 @@ import EditCarModal from '../Components/EditCarModal';
 const MyCarsPage = () => {
   const [cars, setCars] = useState(null);
 
-  const [selectedCar, setSelectedCar] = useState(null);
+  // const [selectedCar, setSelectedCar] = useState(null);
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [err, setError] = useState(null);

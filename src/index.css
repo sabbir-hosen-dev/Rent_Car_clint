@@ -18,6 +18,8 @@
 .my-btn{
   @apply bg-primaryP text-center  px-5 py-2 rounded-md text-white font-semibold transition-all duration-300 hover:bg-primaryP/50
 }
+
+
 .inp {
   width: 100% !important;
 }
