@@ -5,10 +5,8 @@ import { axiosInt } from '../../Hook/useAxios';
 /* eslint-disable react/prop-types */
 import { format } from 'date-fns';
 
-
-function MyCar({ car, fetchMycars, setLoading,setEdit }) {
-  const { image, model, price,  features, _id } = car;
-
+function MyCar({ car, fetchMycars, setLoading, setEdit }) {
+  const { image, model, price, features, _id } = car;
 
   const handleDelete = async id => {
     setLoading(true);
@@ -51,9 +49,9 @@ function MyCar({ car, fetchMycars, setLoading,setEdit }) {
   };
 
   const openModal = id => {
-    const modal = document.getElementById('edit-car'); 
+    const modal = document.getElementById('edit-car');
     modal.showModal();
-    setEdit(id)
+    setEdit(id);
   };
 
   return (
@@ -69,8 +67,6 @@ function MyCar({ car, fetchMycars, setLoading,setEdit }) {
       </td>
       <td className="px-4 py-2">
         <div className="flex gap-3 m-auto">
-          
-
           <BiEdit
             onClick={() => openModal(_id)}
             className="font-bold text-xl cursor-pointer hover:text-green-400 duration-300 transition-colors"

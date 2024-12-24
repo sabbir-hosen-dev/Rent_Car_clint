@@ -10,12 +10,12 @@ import EditCarModal from '../Components/EditCarModal';
 
 const MyCarsPage = () => {
   const [cars, setCars] = useState(null);
-  // const [selectedCar, setSelectedCar] = useState(null);
+
+  const [selectedCar, setSelectedCar] = useState(null);
   const { user } = useAuthContext();
   const [loading, setLoading] = useState(true);
-  const [err,setError] = useState(null);
+  const [err, setError] = useState(null);
   const [edit, setEdit] = useState(null);
-
 
   useEffect(() => {
     fetchMycars();
@@ -30,16 +30,28 @@ const MyCarsPage = () => {
       setError(false);
     } catch (error) {
       console.error('Error fetching cars:', error);
-      setError(true),
-      setLoading(false);
-    } 
+      setError(true), setLoading(false);
+    }
   };
 
-  const handleSortChange = e => {
-    const sortBy = e.target.value;
-    console.log(sortBy);
-  };
 
+  const handleSortChange = (event) => {
+    const sortValue = event.target.value;
+  
+    const sortedData = [...cars]; 
+  
+    if (sortValue === 'date-desc') {
+      sortedData.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
+    } else if (sortValue === 'date-asc') {
+      sortedData.sort((a, b) => new Date(a.postDate) - new Date(b.postDate));
+    } else if (sortValue === 'price-asc') {
+      sortedData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    } else if (sortValue === 'price-desc') {
+      sortedData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    }
+  
+    setCars(sortedData);
+  };
 
   if (loading) return <IsLodding />;
   if (err) return <DataNotFound />;
@@ -86,7 +98,16 @@ const MyCarsPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {cars && cars.map(car =>  <MyCar setEdit={setEdit} setLoading={setLoading} key={car._id} car={car} fetchMycars={fetchMycars} />)}
+                    {cars &&
+                      cars.map(car => (
+                        <MyCar
+                          setEdit={setEdit}
+                          setLoading={setLoading}
+                          key={car._id}
+                          car={car}
+                          fetchMycars={fetchMycars}
+                        />
+                      ))}
                   </tbody>
                 </table>
               </div>
