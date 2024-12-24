@@ -135,7 +135,7 @@ const AvailableCars = () => {
                   view === 'grid' ? 'h-48 w-full' : 'h-full w-full'
                 } object-cover rounded-lg`}
               />
-              <div className="absolute top-2 right-2 bg-primary  text-xs px-2 py-1 rounded-md">
+              <div className="absolute top-2 right-2 bg-[#0000004e] text-white  text-xs px-2 py-1 rounded-md">
                 ${car.price}
               </div>
             </div>
@@ -159,8 +159,8 @@ const AvailableCars = () => {
               <div className="mt-4">
                 <Link
                   to={`/cars/${car._id}`}
-                  className={`btn bg-orange-400 text-text ${
-                    view === 'list' ? 'btn-sm' : 'w-full'
+                  className={`my-btn2 text-text ${
+                    view === 'list' ? 'btn-sm' : 'w-full block'
                   }`}>
                   Book Now
                 </Link>

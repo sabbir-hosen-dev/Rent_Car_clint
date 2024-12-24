@@ -65,7 +65,7 @@ function AddCar() {
     const bookingCount = 0;
     const postDate = new Date();
 
-    const cardData = { ...newCar, user, bookingCount, postDate };
+    const cardData = { ...newCar, owner:user, bookingCount, postDate };
     // console.log(cardData)
     // Simulate saving to the database
     try {

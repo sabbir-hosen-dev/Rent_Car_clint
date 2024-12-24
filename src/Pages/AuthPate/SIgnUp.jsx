@@ -109,7 +109,6 @@ function SignUp() {
       })
       .catch(err => toast.error(err.message));
 
-    console.log(name, email, password, confirmPassword);
   };
   return (
     <section className="bg-cover bg-center">

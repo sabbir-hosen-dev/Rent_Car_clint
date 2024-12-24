@@ -57,10 +57,13 @@ const CarDetails = () => {
           price,
           location,
           bookingDate: new Date().toISOString(),
-          bookingStatus: 'panding',
+          bookingStatus: 'Panding',
+          owner: owner,
+          bayer: curentUser,
+          image,
         };
 
-        if (curentUser?.email == user.email) {
+        if (curentUser?.email === owner.email) {
           toast.error('Action not permitted!');
           return;
         }
@@ -93,7 +96,7 @@ const CarDetails = () => {
     description,
     image,
     location,
-    user,
+    owner,
     postDate,
   } = car;
 
@@ -127,8 +130,9 @@ const CarDetails = () => {
             <h2 className="text-xl font-semibold text-text">Features:</h2>
             <ul className="list-disc pl-6 mt-2 text-text/80">
               {features.split(', ').map((feature, index) => (
-                <li key={index} className="text-lg">
-                  {feature}
+                <li key={index} className="text-lg capitalize">
+                  {feature.charAt(0).toUpperCase() +
+                    feature.slice(1).toLowerCase()}
                 </li>
               ))}
             </ul>
@@ -145,13 +149,13 @@ const CarDetails = () => {
             <h2 className="text font-semibold">Owner Information:</h2>
             <div className="flex items-center gap-3 mt-3">
               <img
-                src={user.photo}
-                alt={user.name}
+                src={owner?.photo}
+                alt={owner.name}
                 className="w-16 h-16 rounded-full border-2 border-primaryP"
               />
               <div>
-                <p className="text-xl font-semibold">{user.name}</p>
-                <p className="text-base text-text/80">{user.email}</p>
+                <p className="text-xl font-semibold">{owner.name}</p>
+                <p className="text-base text-text/80">{owner.email}</p>
               </div>
             </div>
           </div>
