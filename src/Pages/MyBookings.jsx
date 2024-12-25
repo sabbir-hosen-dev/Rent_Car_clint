@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { FaCalendarAlt, FaTrashAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import IsLodding from './IsLodding';
+import { Link } from 'react-router-dom';
 
 const MyBookings = () => {
   const { user } = useAuthContext();
@@ -24,6 +25,7 @@ const MyBookings = () => {
       .get(`/my-bookings/${user.email}`)
       .then(res => {
         setBookings(res.data);
+        // console.log(res.data)
         setError(null);
       })
       .catch(err => {
@@ -81,7 +83,7 @@ const MyBookings = () => {
     const updatedBooking = {
       ...selectedBooking,
       bookingDate: startDate,
-      endDate: endDate,
+      bookingEndDate: endDate,
     };
 
     axiosInt
@@ -114,6 +116,7 @@ const MyBookings = () => {
               <th className="py-3 px-4 text-sm font-semibold text-left">
                 Car Model
               </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left"></th>
               <th className="py-3 px-4 text-sm font-semibold text-left">
                 Booking Date
               </th>
@@ -145,6 +148,15 @@ const MyBookings = () => {
                   />
                 </td>
                 <td className="px-4 py-4">{booking.model}</td>
+
+                <td className="px-4 py-4">
+                  <Link
+                  state={{page : "myBooking"}}
+                    to={`/cars/${booking.carId}`}
+                    className="text-emerald-300 underline">
+                    view
+                  </Link>
+                </td>
                 <td className="px-4 py-4">
                   {booking.bookingDate &&
                     format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}
@@ -152,17 +164,36 @@ const MyBookings = () => {
                 <td className="px-4 py-4">${booking.price}</td>
                 <td className="px-4 py-4">
                   <span
-                    className={`px-3 py-1 rounded-full text-white ${
+                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
                       booking.bookingStatus === 'Confirmed'
-                        ? 'bg-green-500'
-                        : 'bg-orange-500'
+                        ? 'bg-green-300 text-green-600' // Green for Confirmed
+                        : booking.bookingStatus === 'Pending'
+                        ? 'bg-orange-100 text-orange-600' // Orange for Pending
+                        : booking.bookingStatus === 'Canceled'
+                        ? 'bg-red-300 text-red-600' // Red for Canceled
+                        : 'bg-gray-500 text-gray-100' // Default gray for unknown statuses
                     }`}>
+                    {/* Circle indicator */}
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        booking.bookingStatus === 'Confirmed'
+                          ? 'bg-green-500'
+                          : booking.bookingStatus === 'Pending'
+                          ? 'bg-orange-500'
+                          : booking.bookingStatus === 'Canceled'
+                          ? 'bg-red-500'
+                          : 'bg-gray-400'
+                      }`}></span>
+                    {/* Booking status text */}
                     {booking.bookingStatus}
                   </span>
                 </td>
                 <td className="px-4 flex flex-col items-center justify-center gap-2 max-w-[170px] py-4">
                   <div className="flex flex-col gap-2 items-center gap-x-4">
                     <button
+                      disabled={
+                        booking.bookingStatus === 'Confirmed' ? true : false
+                      }
                       className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 w-full dark:bg-red-700 dark:hover:bg-red-800 transition"
                       onClick={() => handleCancelBooking(booking._id)}>
                       <FaTrashAlt />
@@ -170,6 +201,9 @@ const MyBookings = () => {
                     </button>
 
                     <button
+                      disabled={
+                        booking.bookingStatus === 'Confirmed' ? true : false
+                      }
                       className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition"
                       onClick={() => handleModifyDate(booking)}>
                       <FaCalendarAlt className="inline" />

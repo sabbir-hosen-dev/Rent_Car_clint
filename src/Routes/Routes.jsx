@@ -10,6 +10,8 @@ import Login from '../Pages/AuthPate/Login';
 import SignUp from '../Pages/AuthPate/SIgnUp';
 import MyCars from './../Pages/MyCars';
 import CarDetails from '../Pages/carDetails';
+import BookingsData from '../Pages/BookingsData';
+import BookingRequest from '../Pages/BookingRequest';
 
 
 const route = createBrowserRouter([
@@ -39,6 +41,22 @@ const route = createBrowserRouter([
         element: (
           <PrivetRoute>
             <MyBookings />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: '/booking-request',
+        element: (
+          <PrivetRoute>
+            <BookingRequest />
+          </PrivetRoute>
+        ),
+      },
+      {
+        path: '/booking-data',
+        element: (
+          <PrivetRoute>
+            <BookingsData />
           </PrivetRoute>
         ),
       },

@@ -1,7 +1,7 @@
 import { format } from 'date-fns'; // For date formatting
 import IsLodding from './IsLodding';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { axiosInt } from '../Hook/useAxios';
 import Swal from 'sweetalert2'; // SweetAlert2 for modal
 import useAuthContext from '../Hook/useAuthContext';
@@ -12,6 +12,9 @@ const CarDetails = () => {
   const [car, setCar] = useState({});
   const [loading, setLoading] = useState(true);
   const { user: curentUser } = useAuthContext();
+
+  const locationRoute = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInt
@@ -29,6 +32,7 @@ const CarDetails = () => {
   if (loading) {
     return <IsLodding />;
   }
+
 
   const handleBookNow = () => {
     const { model, price, availability, location } = car;
@@ -56,11 +60,13 @@ const CarDetails = () => {
           model,
           price,
           location,
-          bookingDate: new Date().toISOString(),
-          bookingStatus: 'Panding',
+          bookingDate: availability,
+          bookingEndDate: availability,
+          bookingStatus: 'Pending',
           owner: owner,
-          bayer: curentUser,
+          hirer: curentUser,
           image,
+          
         };
 
         if (curentUser?.email === owner.email) {
@@ -75,6 +81,7 @@ const CarDetails = () => {
               text: `Your booking for ${model} has been confirmed.`,
               icon: 'success',
             });
+            navigate("/available-cars")
           })
           .catch(err => {
             console.error(err);
@@ -167,10 +174,13 @@ const CarDetails = () => {
           </div>
 
           {/* Book Now Button */}
-          <div className="mt-6">
+          <div className="mt-6 flex gap-5">
             <button onClick={handleBookNow} className="my-btn">
               Book Now
             </button>
+            {
+              locationRoute?.state?.page ==="myBooking"  && <Link to="/my-bokings" className='btn bg-prima text-text'>My Bookings</Link>
+            }
           </div>
         </div>
       </div>

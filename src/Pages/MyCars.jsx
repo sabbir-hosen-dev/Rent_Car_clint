@@ -16,9 +16,11 @@ const MyCarsPage = () => {
   const [loading, setLoading] = useState(true);
   const [err, setError] = useState(null);
   const [edit, setEdit] = useState(null);
+  const [request,setRequest] = useState(0)
 
   useEffect(() => {
     fetchMycars();
+    fetchBookings()
   }, []);
 
   const fetchMycars = async () => {
@@ -32,6 +34,15 @@ const MyCarsPage = () => {
       console.error('Error fetching cars:', error);
       setError(true), setLoading(false);
     }
+  };
+
+  const fetchBookings = () => {
+    setLoading(true);
+    axiosInt
+      .get(`/booking/request/status?email=${user.email}&status=Pending`)
+      .then(res => {
+        setRequest(res.data.length);
+      })
   };
 
 
@@ -71,6 +82,14 @@ const MyCarsPage = () => {
                 <option value="price-asc">Lowest Price</option>
                 <option value="price-desc">Highest Price</option>
               </select>
+
+              <div className="flex items-center gap-2">
+              <Link to="/booking-data" className="my-btn3 relative">Bookings Data</Link>
+              <div className="relative">
+                {request == 0 ? "" : <span className='badge absolute bg-primaryP text-text font-bold -top-4 -right-1'>{request}</span>}
+              <Link to="/booking-request"  className="my-btn3 w-full h-full">Request Car</Link>
+              </div>
+              </div>
             </div>
 
             {cars.length === 0 ? (

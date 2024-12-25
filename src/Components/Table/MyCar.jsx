@@ -9,6 +9,8 @@ function MyCar({ car, fetchMycars, setLoading, setEdit }) {
   const { image, model, price, features, _id,
     availability } = car;
 
+
+
   const handleDelete = async id => {
     setLoading(true);
     try {
@@ -74,6 +76,7 @@ availability), 'dd/MM/yyy')}
             className="font-bold text-xl cursor-pointer hover:text-green-400 duration-300 transition-colors"
           />{' '}
           <MdOutlineDeleteOutline
+            
             onClick={() => modernDelete(_id)}
             className="font-bold text-xl cursor-pointer hover:text-red-400 duration-300 transition-colors"
           />
