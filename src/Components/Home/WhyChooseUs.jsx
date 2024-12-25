@@ -3,22 +3,22 @@ import { FaCar, FaDollarSign, FaRegClock, FaHeadset } from "react-icons/fa";
 function WhyChooseUs() {
   const features = [
     {
-      icon: <FaCar className="w-12 h-12 text-primary" />,
+      icon: <FaCar className="w-12 h-12 text-primaryP" />,
       title: "Wide Variety of Cars",
       description: "From budget-friendly options to luxury vehicles.",
     },
     {
-      icon: <FaDollarSign className="w-12 h-12 text-primary" />,
+      icon: <FaDollarSign className="w-12 h-12 text-primaryP" />,
       title: "Affordable Prices",
       description: "Competitive daily rates you can count on.",
     },
     {
-      icon: <FaRegClock className="w-12 h-12 text-primary" />,
+      icon: <FaRegClock className="w-12 h-12 text-primaryP" />,
       title: "Easy Booking Process",
       description: "Seamlessly book your ride in just a few clicks.",
     },
     {
-      icon: <FaHeadset className="w-12 h-12 text-primary" />,
+      icon: <FaHeadset className="w-12 h-12 text-primarP" />,
       title: "Customer Support",
       description: "24/7 assistance for all your queries.",
     },
@@ -34,7 +34,7 @@ function WhyChooseUs() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-center text-center p-6 bg-card rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="flex flex-col items-center text-center p-6 bg-card text-primaryP rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               {feature.icon}
               <h3 className="text-xl font-semibold text-text mt-4">

@@ -219,7 +219,7 @@ const MyBookings = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg min-w-[400px] max-w-[500px]">
+          <div className="bg-white dark:bg-slate-500 p-6 rounded-lg shadow-lg min-w-[400px] max-w-[500px]">
             <h2 className="text-lg font-semibold mb-4">Modify Booking Date</h2>
             <div className="flex flex-col gap-4">
               <label>Start Date</label>

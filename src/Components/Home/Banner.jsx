@@ -10,6 +10,7 @@ function Banner() {
       <video
         className="absolute inset-0 w-full h-full object-cover"
         src={vedio} 
+        controls
         autoPlay
         loop
         muted

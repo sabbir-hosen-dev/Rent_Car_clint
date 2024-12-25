@@ -54,7 +54,7 @@ function Navbar({  openMenu, setMenu}) {
             </Link>
             <button
               onClick={() => setMenu(!openMenu)}
-              className="inline-flex items-center z-50 p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-bgB"
+              className="inline-flex items-center z-50 p-2 w-10 h-10 justify-center text-text rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-50 hover:text-text/70 dark:hover:text-black"
               aria-expanded={openMenu}>
               <span className="sr-only">Open main menu</span>
               <svg
@@ -116,7 +116,7 @@ function Navbar({  openMenu, setMenu}) {
               </ul>
               <div className=" lg:hidden flex flex-col gap-3">
                 <div
-                  className="cursor-pointer mx-auto mt-3 text-text hover:text/80 transition-colors duration-300"
+                  className="cursor-pointer mx-auto mt-3 text-text text hover:text/80 transition-colors duration-300"
                   onClick={() => {
                     setTheme(prev => !prev), setMenu(false);
                   }}>

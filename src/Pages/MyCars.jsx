@@ -37,12 +37,12 @@ const MyCarsPage = () => {
   };
 
   const fetchBookings = () => {
-    setLoading(true);
     axiosInt
       .get(`/booking/request/status?email=${user.email}&status=Pending`)
       .then(res => {
         setRequest(res.data.length);
       })
+      .catch(err => console.log(err))
   };
 
 
@@ -92,7 +92,7 @@ const MyCarsPage = () => {
               </div>
             </div>
 
-            {cars.length === 0 ? (
+            {cars?.length === 0 ? (
               <div className="text-center p-8 bg-card">
                 <p className="text-text mb-4">
                   You haven&apos;t added any cars yet!
@@ -118,7 +118,7 @@ const MyCarsPage = () => {
                   </thead>
                   <tbody>
                     {cars &&
-                      cars.map(car => (
+                      cars?.map(car => (
                         <MyCar
                           setEdit={setEdit}
                           setLoading={setLoading}

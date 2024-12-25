@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { BiBlock } from 'react-icons/bi';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
@@ -14,7 +13,6 @@ const BookingRequest = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
 
   const fetchBookings = () => {
     setLoading(true);
@@ -36,16 +34,11 @@ const BookingRequest = () => {
     fetchBookings();
   }, []);
 
-
-  const handleStatus = (id,status) => {
-
-
-
-      axiosInt.patch(`/booking/${id}?status=${status}`)
-      .then(() => {
-        toast.success("Status Update");
-        fetchBookings();
-      })
+  const handleStatus = (id, status,carId) => {
+    axiosInt.patch(`/booking/${id}?status=${status}&carId=${carId}`).then(() => {
+      toast.success('Status Update');
+      fetchBookings();
+    });
   };
 
   if (loading) return <IsLodding />;
@@ -61,7 +54,7 @@ const BookingRequest = () => {
                 Car Image
               </th>
               <th className="py-3 px-4 text-sm font-semibold text-left">
-              Hirer Name
+                Hirer Name
               </th>
               <th className="py-3 px-4 text-sm font-semibold text-left">
                 Car Model
@@ -80,10 +73,11 @@ const BookingRequest = () => {
               </th>
             </tr>
           </thead>
+
           <tbody>
-            {bookings.map((booking, index) => (
+            {bookings?.map((booking, index) => (
               <tr
-                key={booking._id}
+                key={booking?._id}
                 className={`hover:bg-green-50 dark:hover:bg-gray-700 ${
                   index % 2 === 0
                     ? 'bg-white dark:bg-gray-900'
@@ -91,16 +85,16 @@ const BookingRequest = () => {
                 }`}>
                 <td className="px-4 py-4">
                   <img
-                    src={booking.image}
+                    src={booking?.image}
                     alt={booking.model}
                     className="w-20 h-14 object-cover rounded"
                   />
                 </td>
-                <td className="px-4 py-4">{booking.hirer.name}</td>
-                <td className="px-4 py-4">{booking.model}</td>
+                <td className="px-4 py-4">{booking?.hirer?.name}</td>
+                <td className="px-4 py-4">{booking?.model}</td>
                 <td className="px-4 py-4">
-                  {booking.bookingDate &&
-                    format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}
+                  {booking?.bookingDate &&
+                    format(new Date(booking?.bookingDate), 'dd/MM/yyyy HH:mm')}
                 </td>
                 <td className="px-4 py-4">${booking.price}</td>
                 <td className="px-4 py-4">
@@ -134,17 +128,23 @@ const BookingRequest = () => {
                 <td className="px-4 flex flex-col items-center justify-center gap-2 max-w-[170px] py-4">
                   <div className="flex  flex-col gap-2 items-center gap-x-4">
                     <button
-                    disabled={booking.bookingStatus === "Confirmed" ?  true : false}
+                      disabled={
+                        booking.bookingStatus === 'Confirmed' ? true : false
+                      }
                       className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-green-50 text-green-400 hover:bg-green-200 w-full transition"
-                      onClick={() => handleStatus(booking._id,"Confirmed")}>
+                      onClick={() => handleStatus(booking._id, 'Confirmed',booking?.carId)}>
                       <AiOutlineCheckCircle />
                       <div className="sapn hidden md:block"> Confirm</div>
                     </button>
 
                     <button
-                    disabled={booking.bookingStatus === "Canceled" ?  true : false}
+                      disabled={
+                        booking.bookingStatus === 'Canceled' ? true : false
+                      }
                       className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-50 text-red-400 hover:bg-red-200  transition"
-                      onClick={() => handleStatus(booking._id,"Canceled")}>
+                      onClick={() =>
+                        handleStatus(booking._id, 'Canceled', booking?.carId)
+                      }>
                       <BiBlock className="font-xl" />
                       <div className="sapn hidden md:block">Canceled</div>
                     </button>
