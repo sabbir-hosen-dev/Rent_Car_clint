@@ -17,6 +17,8 @@ const CarDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  
+  const [panding, setPanding] = useState(true)
   const { user: curentUser } = useAuthContext();
   const locationRoute = useLocation();
   const navigate = useNavigate();
@@ -70,7 +72,9 @@ const CarDetails = () => {
     setShowModal(true);
   };
 
+
   const handleConfirmBooking = () => {
+
     // Ensure dates are selected and valid
     if (!startDate || !endDate) {
       toast.error('Please select both start and end dates.');
@@ -100,11 +104,14 @@ const CarDetails = () => {
       return;
     }
 
+    setPanding(false);
+
     // Assuming axiosIntSecure is a configured Axios instance for secure requests
     axiosIntSecure
       .post(`/bookings?email=${curentUser.email}`, bookingData)
       .then(() => {
         toast.success('Booking confirmed!');
+        setPanding(true)
         navigate('/my-bokings'); // Navigate to the user's bookings page
         setShowModal(false); // Close the modal
       })
@@ -272,6 +279,7 @@ const CarDetails = () => {
                 Cancel
               </button>
               <button
+                disabled={!panding}
                 className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
                 onClick={handleConfirmBooking}>
                 Confirm

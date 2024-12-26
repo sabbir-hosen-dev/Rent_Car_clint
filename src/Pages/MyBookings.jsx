@@ -21,6 +21,7 @@ const MyBookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [panding,setPanding] = useState(true)
 
   const axiosIntSecure = useAxiosSecure();
 
@@ -94,10 +95,12 @@ const MyBookings = () => {
       bookingEndDate: endDate,
     };
 
+    setPanding(true)
     axiosIntSecure
       .put(`/bookings/${selectedBooking._id}`, updatedBooking)
       .then(() => {
         toast.success('Booking dates updated successfully');
+        setPanding(false)
         fetchBookings();
         setShowModal(false);
       })
@@ -170,7 +173,7 @@ const MyBookings = () => {
                   </td>
                   <td className="px-4 py-4">{booking.model}</td>
 
-                  {console.log(booking)}
+                
                   {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
                   <td className="px-4 py-4">
                     {booking.bookingDate &&
@@ -282,6 +285,7 @@ const MyBookings = () => {
                 Cancel
               </button>
               <button
+                disabled={!panding}
                 className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
                 onClick={handleSaveDateChanges}>
                 Confirm
