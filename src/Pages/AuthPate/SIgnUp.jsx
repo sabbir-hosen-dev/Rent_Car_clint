@@ -12,6 +12,7 @@ import auth from '../../Firebase/Firebase.config';
 import signUPAnimation from '../../LottieFiles/signup.json';
 import Lottie from 'lottie-react';
 import toast from 'react-hot-toast';
+import { Fade, Slide } from 'react-awesome-reveal';
 
 function SignUp() {
   const { createUser, setUser, user, googleSignIn } = useAuthContext();
@@ -108,180 +109,189 @@ function SignUp() {
         navigate('/login');
       })
       .catch(err => toast.error(err.message));
-
   };
   return (
     <section className="bg-cover bg-center">
       <Helmet>
         <title>Sign Up | Play Rev</title>
       </Helmet>
-      <div className=" wrap grid my-20 py-10 border-border grid-cols-1 border rounded-xl shadow-stone-500 md:grid-cols-2 items-center justify-center gap-5">
-        <div className="w-full  mx-auto  rounded-lg shadow dark:shadow-slate-200 sm:max-w-md xl:p-0 bg-bgB">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-text md:text-2xl ">
-              Create an account
-            </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-text">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="Name"
-                  placeholder="Name"
-                  className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-text">
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="name@company.com"
-                  className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                  required
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-text ">
-                  Photo Url
-                </label>
-                <input
-                  type="text"
-                  name="photo"
-                  id="url"
-                  placeholder="Photo Url"
-                  className="  bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-text">
-                  Password
-                </label>
-
-                <div className="relative">
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                    {eye ? (
-                      <AiOutlineEyeInvisible
-                        onClick={() => setEye(false)}
-                        className="hover:text-pin"
-                      />
-                    ) : (
-                      <AiOutlineEye
-                        onClick={() => setEye(true)}
-                        className="hover:text-pin"
-                      />
-                    )}
-                  </div>
+      <div className=" wrap overflow-hidden grid my-20 py-10 border-border grid-cols-1 border rounded-xl shadow-stone-500 md:grid-cols-2 items-center justify-center gap-5">
+        <Slide>
+          <Fade duration="3000">
+          <div className="w-full  mx-auto  rounded-lg shadow dark:shadow-slate-200 sm:max-w-md xl:p-0 bg-bgB">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-text md:text-2xl ">
+                Create an account
+              </h1>
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-text">
+                    Your Name
+                  </label>
                   <input
-                    type={eye ? 'password' : 'text'}
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
+                    type="text"
+                    name="name"
+                    id="Name"
+                    placeholder="Name"
                     className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     required
                   />
                 </div>
-              </div>
-              <div>
-                <label
-                  htmlFor="confirm-password"
-                  className="block mb-2 text-sm font-medium text-text">
-                  Confirm password
-                </label>
-                <div className="relative">
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                    {eyes ? (
-                      <AiOutlineEye
-                        onClick={() => setEyes(false)}
-                        className="hover:text-pin"
-                      />
-                    ) : (
-                      <AiOutlineEyeInvisible
-                        onClick={() => setEyes(true)}
-                        className="hover:text-pin"
-                      />
-                    )}
-                  </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block mb-2 text-sm font-medium text-text">
+                    Your email
+                  </label>
                   <input
-                    type={eyes ? 'password' : 'text'}
-                    name="confirm-password"
-                    id="confirmPassword"
-                    placeholder="••••••••"
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="name@company.com"
                     className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     required
                   />
                 </div>
-              </div>
-              <div className="">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
+
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-text ">
+                    Photo Url
+                  </label>
+                  <input
+                    type="text"
+                    name="photo"
+                    id="url"
+                    placeholder="Photo Url"
+                    className="  bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="block mb-2 text-sm font-medium text-text">
+                    Password
+                  </label>
+
+                  <div className="relative">
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                      {eye ? (
+                        <AiOutlineEyeInvisible
+                          onClick={() => setEye(false)}
+                          className="hover:text-pin"
+                        />
+                      ) : (
+                        <AiOutlineEye
+                          onClick={() => setEye(true)}
+                          className="hover:text-pin"
+                        />
+                      )}
+                    </div>
                     <input
-                      id="terms"
-                      aria-describedby="terms"
-                      type="checkbox"
-                      className="w-4  h-4 border border-gray-300 rounded-xl bg-input "
+                      type={eye ? 'password' : 'text'}
+                      name="password"
+                      id="password"
+                      placeholder="••••••••"
+                      className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                       required
                     />
                   </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="terms" className="font-light text-text">
-                      I accept the{' '}
-                      <a
-                        href="#"
-                        className="font-medium text-primary-600 hover:underline">
-                        Terms and Conditions
-                      </a>
-                    </label>
+                </div>
+                <div>
+                  <label
+                    htmlFor="confirm-password"
+                    className="block mb-2 text-sm font-medium text-text">
+                    Confirm password
+                  </label>
+                  <div className="relative">
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                      {eyes ? (
+                        <AiOutlineEye
+                          onClick={() => setEyes(false)}
+                          className="hover:text-pin"
+                        />
+                      ) : (
+                        <AiOutlineEyeInvisible
+                          onClick={() => setEyes(true)}
+                          className="hover:text-pin"
+                        />
+                      )}
+                    </div>
+                    <input
+                      type={eyes ? 'password' : 'text'}
+                      name="confirm-password"
+                      id="confirmPassword"
+                      placeholder="••••••••"
+                      className="bg-input border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
+                      required
+                    />
                   </div>
                 </div>
                 <div className="">
-                  {message && <small className="text-red-500">{message}</small>}
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="terms"
+                        aria-describedby="terms"
+                        type="checkbox"
+                        className="w-4  h-4 border border-gray-300 rounded-xl bg-input "
+                        required
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="terms" className="font-light text-text">
+                        I accept the{' '}
+                        <a
+                          href="#"
+                          className="font-medium text-primary-600 hover:underline">
+                          Terms and Conditions
+                        </a>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="">
+                    {message && (
+                      <small className="text-red-500">{message}</small>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              <button
-                type="submit"
-                className="w-full bg-primaryP text-text hover:bg-primaryP/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
-                Create an account
-              </button>
-              <button
-                onClick={() => handleGoogle()}
-                type="button"
-                className="w-full border border-neutral-400 hover:bg-pin duration-300 hover:border-pin text-text font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center gap-2">
-                <FcGoogle className="w-5 h-5" />
-                Sign in with Google
-              </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{' '}
-                <Link
-                  to="/login"
-                  className="font-medium text-primary-600 hover:underline">
-                  <span className="text-blue-400">Login here</span>
-                </Link>
-              </p>
-            </form>
+                <button
+                  type="submit"
+                  className="w-full bg-primaryP text-text hover:bg-primaryP/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white">
+                  Create an account
+                </button>
+                <button
+                  onClick={() => handleGoogle()}
+                  type="button"
+                  className="w-full border border-neutral-400 hover:bg-pin duration-300 hover:border-pin text-text font-medium rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center gap-2">
+                  <FcGoogle className="w-5 h-5" />
+                  Sign in with Google
+                </button>
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Already have an account?{' '}
+                  <Link
+                    to="/login"
+                    className="font-medium text-primary-600 hover:underline">
+                    <span className="text-blue-400">Login here</span>
+                  </Link>
+                </p>
+              </form>
+            </div>
           </div>
-        </div>
-        <div className="">
-          <Lottie animationData={signUPAnimation} />
-        </div>
+          </Fade>
+        </Slide>
+        <Slide direction="right">
+          <Fade duration="300">
+            <div className="">
+              <Lottie animationData={signUPAnimation} />
+            </div>
+          </Fade>
+        </Slide>
       </div>
     </section>
   );

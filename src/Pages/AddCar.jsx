@@ -4,6 +4,8 @@ import DatePicker from 'react-datepicker'; // Date Picker for availability
 import 'react-datepicker/dist/react-datepicker.css';
 import useAuthContext from './../Hook/useAuthContext';
 import {  useAxiosSecure } from '../Hook/useAxios';
+import { Fade } from 'react-awesome-reveal';
+import { Helmet } from 'react-helmet';
 
 function AddCar() {
   const [availability, setAvailability] = useState(null);
@@ -85,8 +87,12 @@ function AddCar() {
 
   return (
     <section className="flex justify-center items-center py-10">
+            <Helmet >
+        <title>Add Car | Rent Car</title>
+      </Helmet>
       <div className="w-full max-w-lg bg-bgB shadow-lg rounded-lg p-6">
         <h1 className="text-2xl text-text font-bold mb-6">Add New Car</h1>
+        <Fade>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Car Model */}
           <div>
@@ -261,6 +267,7 @@ function AddCar() {
             Save Car
           </button>
         </form>
+        </Fade>
       </div>
     </section>
   );

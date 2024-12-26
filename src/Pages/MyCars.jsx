@@ -7,6 +7,8 @@ import useAuthContext from '../Hook/useAuthContext';
 import IsLodding from './IsLodding';
 import DataNotFound from '../Components/DataNotFound';
 import EditCarModal from '../Components/EditCarModal';
+import { Fade } from 'react-awesome-reveal';
+import { Helmet } from 'react-helmet';
 
 const MyCarsPage = () => {
   const [cars, setCars] = useState(null);
@@ -17,11 +19,11 @@ const MyCarsPage = () => {
   const [loading, setLoading] = useState(true);
   const [err, setError] = useState(null);
   const [edit, setEdit] = useState(null);
-  const [request,setRequest] = useState(0)
+  const [request, setRequest] = useState(0);
 
   useEffect(() => {
     fetchMycars();
-    fetchBookings()
+    fetchBookings();
   }, []);
 
   const fetchMycars = async () => {
@@ -43,15 +45,14 @@ const MyCarsPage = () => {
       .then(res => {
         setRequest(res.data.length);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   };
 
-
-  const handleSortChange = (event) => {
+  const handleSortChange = event => {
     const sortValue = event.target.value;
-  
-    const sortedData = [...cars]; 
-  
+
+    const sortedData = [...cars];
+
     if (sortValue === 'date-desc') {
       sortedData.sort((a, b) => new Date(b.postDate) - new Date(a.postDate));
     } else if (sortValue === 'date-asc') {
@@ -61,7 +62,7 @@ const MyCarsPage = () => {
     } else if (sortValue === 'price-desc') {
       sortedData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
-  
+
     setCars(sortedData);
   };
 
@@ -72,6 +73,9 @@ const MyCarsPage = () => {
     <>
       {cars && (
         <div className="">
+          <Helmet>
+            <title>My Cars  | Rent Car</title>
+          </Helmet>
           <EditCarModal fetchMycars={fetchMycars} id={edit} />
           <div className="wrap  min-h-screen p-6">
             <div className="mb-4 flex justify-between items-center">
@@ -85,11 +89,18 @@ const MyCarsPage = () => {
               </select>
 
               <div className="flex items-center gap-2">
-              
-              <div className="relative">
-                {request == 0 ? "" : <span className='badge absolute bg-primaryP text-text font-bold -top-4 -right-1'>{request}</span>}
-              <Link to="/booking-request"  className="my-btn3 w-full h-full">Request Car</Link>
-              </div>
+                <div className="relative">
+                  {request == 0 ? (
+                    ''
+                  ) : (
+                    <span className="badge absolute bg-primaryP text-text font-bold -top-4 -right-1">
+                      {request}
+                    </span>
+                  )}
+                  <Link to="/booking-request" className="my-btn3 w-full h-full">
+                    Request Car
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -104,32 +115,34 @@ const MyCarsPage = () => {
               </div>
             ) : (
               <div className="overflow-x-auto bg-card p-6 rounded-lg shadow-lg">
-                <table className="table-auto w-full text-center">
-                  <thead>
-                    <tr>
-                      <th className="px-4 py-2 text-primaryP">Car Image</th>
-                      <th className="px-4 py-2 text-primaryP">Car Model</th>
-                      <th className="px-4 py-2 text-primaryP">
-                        Daily Rental Price
-                      </th>
-                      <th className="px-4 py-2 text-primaryP">Features</th>
-                      <th className="px-4 py-2 text-primaryP">Date Added</th>
-                      <th className="px-4 py-2 text-primaryP">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {cars &&
-                      cars?.map(car => (
-                        <MyCar
-                          setEdit={setEdit}
-                          setLoading={setLoading}
-                          key={car._id}
-                          car={car}
-                          fetchMycars={fetchMycars}
-                        />
-                      ))}
-                  </tbody>
-                </table>
+                <Fade>
+                  <table className="table-auto w-full text-center">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-primaryP">Car Image</th>
+                        <th className="px-4 py-2 text-primaryP">Car Model</th>
+                        <th className="px-4 py-2 text-primaryP">
+                          Daily Rental Price
+                        </th>
+                        <th className="px-4 py-2 text-primaryP">Features</th>
+                        <th className="px-4 py-2 text-primaryP">Date Added</th>
+                        <th className="px-4 py-2 text-primaryP">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {cars &&
+                        cars?.map(car => (
+                          <MyCar
+                            setEdit={setEdit}
+                            setLoading={setLoading}
+                            key={car._id}
+                            car={car}
+                            fetchMycars={fetchMycars}
+                          />
+                        ))}
+                    </tbody>
+                  </table>
+                </Fade>
               </div>
             )}
           </div>

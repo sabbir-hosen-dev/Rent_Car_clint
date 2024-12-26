@@ -9,6 +9,8 @@ import DatePicker from 'react-datepicker';
 import IsLodding from './IsLodding';
 import { Link } from 'react-router-dom';
 import DataNotFound from '../Components/DataNotFound';
+import { Fade } from 'react-awesome-reveal';
+import { Helmet } from 'react-helmet';
 
 const MyBookings = () => {
   const { user } = useAuthContext();
@@ -112,138 +114,143 @@ const MyBookings = () => {
 
   return (
     <div className="wrap py-6">
+            <Helmet>
+        <title>My Bookings | Rent Car</title>
+      </Helmet>
       <div className=" py-2 mb-3 flex justify-end">
         <Link to="/DailyRentalPrices" className="my-btn3 ">
-        Daily Rental Prices
+          Daily Rental Prices
         </Link>
       </div>
       <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
-        <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-          <thead className="bg-gray-200 dark:bg-gray-800">
-            <tr>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Car Image
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Car Model
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Booking Start Date
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Booking End Date
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Total Price
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Status
-              </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking, index) => (
-              <tr
-                key={booking._id}
-                className={`hover:bg-green-50 dark:hover:bg-gray-700 ${
-                  index % 2 === 0
-                    ? 'bg-white dark:bg-gray-900'
-                    : 'bg-gray-100 dark:bg-gray-800'
-                }`}>
-                <td className="px-4 py-4">
-                  <Link to={`/cars/${booking.carId}`}>
-                    <img
-                      src={booking.image}
-                      alt={booking.model}
-                      className="w-20 h-14 object-cover rounded"
-                    />
-                  </Link>
-                </td>
-                <td className="px-4 py-4">{booking.model}</td>
-
-                {console.log(booking)}
-                {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
-                <td className="px-4 py-4">
-                  {booking.bookingDate &&
-                    format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}
-                </td>
-                <td className="px-4 py-4">
-                  {booking.bookingDate &&
-                    format(
-                      new Date(booking.bookingEndDate),
-                      'dd/MM/yyyy HH:mm'
-                    )}
-                </td>
-                <td className="px-4 py-4">
-                  {booking.bookingDate && booking.bookingEndDate ? (
-                    <p>
-                      $
-                      {differenceInDays(
-                        new Date(booking.bookingEndDate),
-                        new Date(booking.bookingDate)
-                      ) * booking.price}
-                    </p>
-                  ) : (
-                    'N/A'
-                  )}
-                </td>
-
-                <td className="px-4 py-4">
-                  <span
-                    className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-                      booking.bookingStatus === 'Confirmed'
-                        ? 'bg-green-300 text-green-600' // Green for Confirmed
-                        : booking.bookingStatus === 'Pending'
-                        ? 'bg-orange-100 text-orange-600' // Orange for Pending
-                        : booking.bookingStatus === 'Canceled'
-                        ? 'bg-red-300 text-red-600' // Red for Canceled
-                        : 'bg-gray-500 text-gray-100' // Default gray for unknown statuses
-                    }`}>
-                    {/* Circle indicator */}
-                    <span
-                      className={`h-2 w-2 rounded-full ${
-                        booking.bookingStatus === 'Confirmed'
-                          ? 'bg-green-500'
-                          : booking.bookingStatus === 'Pending'
-                          ? 'bg-orange-500'
-                          : booking.bookingStatus === 'Canceled'
-                          ? 'bg-red-500'
-                          : 'bg-gray-400'
-                      }`}></span>
-                    {/* Booking status text */}
-                    {booking.bookingStatus}
-                  </span>
-                </td>
-                <td className="px-4 flex flex-col items-center justify-center gap-2 max-w-[170px] py-4">
-                  <div className="flex flex-col gap-2 items-center gap-x-4">
-                    <button
-                      disabled={
-                        booking.bookingStatus === 'Confirmed' ? true : false
-                      }
-                      className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 w-full dark:bg-red-700 dark:hover:bg-red-800 transition"
-                      onClick={() => handleCancelBooking(booking._id)}>
-                      <FaTrashAlt />
-                      <div className="sapn hidden md:block"> Cancel</div>
-                    </button>
-
-                    <button
-                      disabled={
-                        booking.bookingStatus === 'Confirmed' ? true : false
-                      }
-                      className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition"
-                      onClick={() => handleModifyDate(booking)}>
-                      <FaCalendarAlt className="inline" />
-                      <div className="sapn hidden md:block">Modify Date</div>
-                    </button>
-                  </div>
-                </td>
+        <Fade>
+          <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+            <thead className="bg-gray-200 dark:bg-gray-800">
+              <tr>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Car Image
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Car Model
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Booking Start Date
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Booking End Date
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Total Price
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Status
+                </th>
+                <th className="py-3 px-4 text-sm font-semibold text-left">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {bookings.map((booking, index) => (
+                <tr
+                  key={booking._id}
+                  className={`hover:bg-green-50 dark:hover:bg-gray-700 ${
+                    index % 2 === 0
+                      ? 'bg-white dark:bg-gray-900'
+                      : 'bg-gray-100 dark:bg-gray-800'
+                  }`}>
+                  <td className="px-4 py-4">
+                    <Link to={`/cars/${booking.carId}`}>
+                      <img
+                        src={booking.image}
+                        alt={booking.model}
+                        className="w-20 h-14 object-cover rounded"
+                      />
+                    </Link>
+                  </td>
+                  <td className="px-4 py-4">{booking.model}</td>
+
+                  {console.log(booking)}
+                  {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
+                  <td className="px-4 py-4">
+                    {booking.bookingDate &&
+                      format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}
+                  </td>
+                  <td className="px-4 py-4">
+                    {booking.bookingDate &&
+                      format(
+                        new Date(booking.bookingEndDate),
+                        'dd/MM/yyyy HH:mm'
+                      )}
+                  </td>
+                  <td className="px-4 py-4">
+                    {booking.bookingDate && booking.bookingEndDate ? (
+                      <p>
+                        $
+                        {differenceInDays(
+                          new Date(booking.bookingEndDate),
+                          new Date(booking.bookingDate)
+                        ) * booking.price}
+                      </p>
+                    ) : (
+                      'N/A'
+                    )}
+                  </td>
+
+                  <td className="px-4 py-4">
+                    <span
+                      className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+                        booking.bookingStatus === 'Confirmed'
+                          ? 'bg-green-300 text-green-600' // Green for Confirmed
+                          : booking.bookingStatus === 'Pending'
+                          ? 'bg-orange-100 text-orange-600' // Orange for Pending
+                          : booking.bookingStatus === 'Canceled'
+                          ? 'bg-red-300 text-red-600' // Red for Canceled
+                          : 'bg-gray-500 text-gray-100' // Default gray for unknown statuses
+                      }`}>
+                      {/* Circle indicator */}
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          booking.bookingStatus === 'Confirmed'
+                            ? 'bg-green-500'
+                            : booking.bookingStatus === 'Pending'
+                            ? 'bg-orange-500'
+                            : booking.bookingStatus === 'Canceled'
+                            ? 'bg-red-500'
+                            : 'bg-gray-400'
+                        }`}></span>
+                      {/* Booking status text */}
+                      {booking.bookingStatus}
+                    </span>
+                  </td>
+                  <td className="px-4 flex flex-col items-center justify-center gap-2 max-w-[170px] py-4">
+                    <div className="flex flex-col gap-2 items-center gap-x-4">
+                      <button
+                        disabled={
+                          booking.bookingStatus === 'Confirmed' ? true : false
+                        }
+                        className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white hover:bg-red-700 w-full dark:bg-red-700 dark:hover:bg-red-800 transition"
+                        onClick={() => handleCancelBooking(booking._id)}>
+                        <FaTrashAlt />
+                        <div className="sapn hidden md:block"> Cancel</div>
+                      </button>
+
+                      <button
+                        disabled={
+                          booking.bookingStatus === 'Confirmed' ? true : false
+                        }
+                        className="flex btn-sm items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 transition"
+                        onClick={() => handleModifyDate(booking)}>
+                        <FaCalendarAlt className="inline" />
+                        <div className="sapn hidden md:block">Modify Date</div>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Fade>
       </div>
 
       {showModal && (

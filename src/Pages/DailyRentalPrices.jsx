@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import IsLodding from './IsLodding';
+import { Helmet } from 'react-helmet';
 
 const DailyRentalPrices = () => {
   const [bookings, setBookings] = useState([]);
@@ -51,6 +52,9 @@ const DailyRentalPrices = () => {
 
   return (
     <div className="wrap py-6">
+            <Helmet>
+        <title>Daily Rental Price | Rent Car</title>
+      </Helmet>
       <div className="my-8">
         <h2 className="text-xl font-semibold mb-5">Car Daily Rental Prices</h2>
         <ResponsiveContainer width="100%" height={400}>

@@ -1,3 +1,5 @@
+import { Bounce, Fade,Slide } from 'react-awesome-reveal';
+
 function SpecialOffers() {
   // const offers = [
   //   {
@@ -52,34 +54,49 @@ function SpecialOffers() {
 
       <div className="grid wrap grid-cols-1 md:grid-cols-2 justify-center items-center gap-6 p-6">
         {/* Card 1 */}
-        <div className="relative bg-blue-500 text-white rounded-lg shadow-lg p-6 w-full hover:scale-105 transform transition-transform duration-300">
-          <h2 className="text-2xl font-bold mb-2">
-            Get 15% off for weekend rentals!
-          </h2>
-          <p className="text-sm mb-4">Plan your perfect weekend trip now.</p>
-          <div className="flex justify-end">
-            <button className="btn  border-none cursor-pointer bg-white text-blue-500 rounded-md px-4 py-2 hover:bg-blue-100 transition duration-200">
-              Learn More
-            </button>
+        <Slide duration="700">
+          <div className="relative h-full bg-blue-500 text-white rounded-lg shadow-lg p-6 w-full hover:scale-105 transform transition-transform duration-300">
+            <Fade  delay="20">
+              <h2 className="text-2xl font-bold mb-2">
+                Get 15% off for weekend rentals!
+              </h2>
+              <p className="text-sm mb-4">
+                Plan your perfect weekend trip now.
+              </p>
+              <div className="flex justify-end">
+              <Bounce delay="20">
+              <button className="btn  border-none cursor-pointer bg-white text-blue-500 rounded-md px-4 py-2 hover:bg-blue-100 transition duration-200">
+                  Learn More
+                </button>
+              </Bounce>
+              </div>
+            </Fade>
+            <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 opacity-0 hover:opacity-10 transition duration-300"></div>
           </div>
-          <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 opacity-0 hover:opacity-10 transition duration-300"></div>
-        </div>
+        </Slide>
 
         {/* Card 2 */}
-        <div className="relative bg-red-500 text-white rounded-lg shadow-lg p-6  hover:scale-105 transform transition-transform duration-300">
-          <h2 className="text-2xl font-bold mb-2">
-            Luxury cars at $99/day this holiday season!
-          </h2>
-          <p className="text-sm mb-4">
-            Experience the ultimate in style and comfort.
-          </p>
-          <div className="flex justify-end">
-            <button className="bg-white btn border-none  text-red-500 rounded-md px-4  hover:bg-red-100 transition cursor-pointer duration-200">
-              Book Now
-            </button>
+        <Slide direction="right" duration="700">
+          <div className="relative w-full bg-red-500 text-white rounded-lg shadow-lg p-6  hover:scale-105 transform transition-transform duration-300">
+            <Fade delay="20">
+              <h2 className="text-2xl font-bold mb-2">
+                Luxury cars at $99/day this holiday season!
+              </h2>
+              <p className="text-sm mb-4">
+                Experience the ultimate in style and comfort.
+              </p>
+
+              <div className="flex justify-end">
+              <Bounce delay="20">
+                <button className="bg-white btn border-none  text-red-500 rounded-md px-4  hover:bg-red-100 transition cursor-pointer duration-200">
+                  Book Now
+                </button>
+                </Bounce>
+              </div>
+            </Fade>
+            <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-red-600 via-red-500 to-red-400 opacity-0 hover:opacity-10 transition duration-300"></div>
           </div>
-          <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-red-600 via-red-500 to-red-400 opacity-0 hover:opacity-10 transition duration-300"></div>
-        </div>
+        </Slide>
       </div>
     </section>
   );

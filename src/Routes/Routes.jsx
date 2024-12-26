@@ -5,14 +5,13 @@ import Home from '../Pages/Home';
 import PrivetRoute from './PrivetRoutes';
 import AvaiableCars from '../Pages/AvaiableCars';
 import AddCar from '../Pages/AddCar';
-import MyBookings from '../Pages/MyBOokings';
 import Login from '../Pages/AuthPate/Login';
 import SignUp from '../Pages/AuthPate/SIgnUp';
 import MyCars from './../Pages/MyCars';
-import CarDetails from '../Pages/carDetails';
 import BookingRequest from '../Pages/BookingRequest';
 import DailyRentalPrices from '../Pages/DailyRentalPrices';
-
+import MyBookings from '../Pages/MyBookings';
+import CarDetails from '../Pages/CarDetails';
 
 const route = createBrowserRouter([
   {
@@ -56,7 +55,7 @@ const route = createBrowserRouter([
         path: '/DailyRentalPrices',
         element: (
           <PrivetRoute>
-            <DailyRentalPrices/>
+            <DailyRentalPrices />
           </PrivetRoute>
         ),
       },
@@ -69,17 +68,17 @@ const route = createBrowserRouter([
         ),
       },
       {
-        path : "/login",
-        element: <Login /> 
+        path: '/login',
+        element: <Login />,
       },
       {
-        path : "/signup",
-        element: <SignUp /> 
+        path: '/signup',
+        element: <SignUp />,
       },
       {
-        path : "/cars/:id",
-        element: <CarDetails />
-      }
+        path: '/cars/:id',
+        element: <CarDetails />,
+      },
     ],
   },
 ]);

@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 
 import { differenceInDays} from 'date-fns';
 import IsLodding from './IsLodding';
+import { Fade } from 'react-awesome-reveal';
+import { Helmet } from 'react-helmet';
 
 const BookingRequest = () => {
   const axiosIntSecure = useAxiosSecure();
@@ -57,7 +59,11 @@ const BookingRequest = () => {
 
   return (
     <div className="wrap py-6">
-      <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
+            <Helmet>
+        <title>Booking Request | Rent Car</title>
+      </Helmet>
+    <Fade>
+    <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
         <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
           <thead className="bg-gray-200 dark:bg-gray-800">
             <tr>
@@ -184,6 +190,7 @@ const BookingRequest = () => {
           </tbody>
         </table>
       </div>
+    </Fade>
     </div>
   );
 };

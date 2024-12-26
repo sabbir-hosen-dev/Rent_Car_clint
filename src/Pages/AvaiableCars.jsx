@@ -6,6 +6,8 @@ import IsLodding from './IsLodding';
 import DataNotFound from '../Components/DataNotFound';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { Fade } from 'react-awesome-reveal';
+import { Helmet } from 'react-helmet';
 
 const AvailableCars = () => {
   const [view, setView] = useState('grid'); // 'grid' or 'list'
@@ -118,8 +120,13 @@ const AvailableCars = () => {
             : ''
         } gap-5`}>
         {data?.map(car => (
-          <div
-            key={car._id}
+          <div key={car._id} className="">
+                  <Helmet>
+        <title>Avalible Cars | Rent Car</title>
+      </Helmet>
+            <Fade>
+            <div
+            
             className={`card bg-card shadow-md shadow-input  p-4  flex ${
               view === 'grid' ? 'flex-col' : 'flex-row mb-5 items-center'
             } gap-4 rounded-lg`}>
@@ -166,6 +173,8 @@ const AvailableCars = () => {
                 </Link>
               </div>
             </div>
+          </div>
+            </Fade>
           </div>
         ))}
       </div>
