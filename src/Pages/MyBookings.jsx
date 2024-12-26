@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useAuthContext from '../Hook/useAuthContext';
-import { axiosInt } from '../Hook/useAxios';
+import { axiosInt, useAxiosSecure } from '../Hook/useAxios';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
@@ -8,6 +8,7 @@ import { FaCalendarAlt, FaTrashAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import IsLodding from './IsLodding';
 import { Link } from 'react-router-dom';
+import DataNotFound from '../Components/DataNotFound';
 
 const MyBookings = () => {
   const { user } = useAuthContext();
@@ -19,9 +20,11 @@ const MyBookings = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
+  const axiosIntSecure = useAxiosSecure();
+
   const fetchBookings = () => {
     setLoading(true);
-    axiosInt
+    axiosIntSecure
       .get(`/my-bookings/${user.email}`)
       .then(res => {
         setBookings(res.data);
@@ -59,12 +62,14 @@ const MyBookings = () => {
       }
     });
   };
-
+  const getDefaultDate = (date1, date2) => (date2 ? new Date(date2) : date1);
   const handleModifyDate = booking => {
     setSelectedBooking(booking);
-    setStartDate(booking.bookingDate ? new Date(booking.bookingDate) : null); // Ensure it's a valid date
-    setEndDate(booking.endDate ? new Date(booking.endDate) : null); // Ensure it's a valid date
+    const startDateValue = booking.bookingDate ? new Date(booking.bookingDate) : null;
+    setStartDate(startDateValue);
+    setEndDate(getDefaultDate(startDateValue, booking.endDate));
     setShowModal(true);
+  
   };
 
   const handleSaveDateChanges = () => {
@@ -86,7 +91,7 @@ const MyBookings = () => {
       bookingEndDate: endDate,
     };
 
-    axiosInt
+    axiosIntSecure
       .put(`/bookings/${selectedBooking._id}`, updatedBooking)
       .then(() => {
         toast.success('Booking dates updated successfully');
@@ -102,7 +107,7 @@ const MyBookings = () => {
   };
 
   if (loading) return <IsLodding />;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <DataNotFound />;
 
   return (
     <div className="wrap py-6">
@@ -151,12 +156,13 @@ const MyBookings = () => {
 
                 <td className="px-4 py-4">
                   <Link
-                  state={{page : "myBooking"}}
+                    state={{ page: 'myBooking' }}
                     to={`/cars/${booking.carId}`}
                     className="text-emerald-300 underline">
                     view
                   </Link>
                 </td>
+                {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
                 <td className="px-4 py-4">
                   {booking.bookingDate &&
                     format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}

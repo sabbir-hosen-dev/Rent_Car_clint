@@ -2,18 +2,32 @@ import { useEffect, useState } from 'react';
 import { axiosInt } from '../../Hook/useAxios';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from 'react-router-dom';
+import IsLodding from '../../Pages/IsLodding';
+import DataNotFound from '../DataNotFound';
 
 function RecentListings() {
   const [latest, setLatest] = useState();
+  const [loading,setLoading] = useState(true)
+  const [error,setError] = useState(null)
 
   useEffect(() => {
+    setLoading(true)
     axiosInt
       .get('/latest')
-      .then(res => setLatest(res.data))
-      .catch(err => console.log(err));
+      .then(res =>{
+         setLatest(res.data)
+          setLoading(false)
+          setError(false)
+          })
+      .catch(err =>{ console.log(err)
+        setError(true)
+      });
   }, []);
 
   // console.log(latest);
+
+  if(loading) <IsLodding />
+  if(error) <DataNotFound />
 
   return (
     <section className="py-16 bg-bgB">

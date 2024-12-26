@@ -3,12 +3,14 @@ import { toast } from 'react-hot-toast'; // Toast notifications
 import DatePicker from 'react-datepicker'; // Date Picker for availability
 import 'react-datepicker/dist/react-datepicker.css';
 import useAuthContext from './../Hook/useAuthContext';
-import { axiosInt } from '../Hook/useAxios';
+import {  useAxiosSecure } from '../Hook/useAxios';
 
 function AddCar() {
   const [availability, setAvailability] = useState(null);
   const [errors, setErrors] = useState({});
   const { user } = useAuthContext();
+
+  const axiosIntSecure = useAxiosSecure();
 
   const handleSubmit =  e => {
     e.preventDefault();
@@ -70,7 +72,7 @@ function AddCar() {
     // console.log(cardData)
     // Simulate saving to the database
     try {
-      axiosInt.post('/add-car', cardData);
+      axiosIntSecure.post('/add-car', cardData);
       toast.success('Car added successfully!');
       form.reset();
       setAvailability(null);

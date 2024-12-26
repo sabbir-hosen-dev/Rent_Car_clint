@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MyCar from '../Components/Table/MyCar';
 
-import { axiosInt } from '../Hook/useAxios';
+import { useAxiosSecure } from '../Hook/useAxios';
 import useAuthContext from '../Hook/useAuthContext';
 import IsLodding from './IsLodding';
 import DataNotFound from '../Components/DataNotFound';
@@ -10,6 +10,7 @@ import EditCarModal from '../Components/EditCarModal';
 
 const MyCarsPage = () => {
   const [cars, setCars] = useState(null);
+  const axiosIntSecure = useAxiosSecure();
 
   // const [selectedCar, setSelectedCar] = useState(null);
   const { user } = useAuthContext();
@@ -26,7 +27,7 @@ const MyCarsPage = () => {
   const fetchMycars = async () => {
     setLoading(true); // Start loading before the request
     try {
-      const { data } = await axiosInt.get(`/my-cars/${user?.email}`);
+      const { data } = await axiosIntSecure.get(`/my-cars/${user?.email}`);
       setCars(data);
       setLoading(false);
       setError(false);
@@ -37,7 +38,7 @@ const MyCarsPage = () => {
   };
 
   const fetchBookings = () => {
-    axiosInt
+    axiosIntSecure
       .get(`/booking/request/status?email=${user.email}&status=Pending`)
       .then(res => {
         setRequest(res.data.length);

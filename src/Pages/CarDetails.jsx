@@ -2,19 +2,24 @@ import { format } from 'date-fns'; // For date formatting
 import IsLodding from './IsLodding';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { axiosInt } from '../Hook/useAxios';
-import Swal from 'sweetalert2'; // SweetAlert2 for modal
+import { axiosInt, useAxiosSecure } from '../Hook/useAxios';
 import useAuthContext from '../Hook/useAuthContext';
 import toast from 'react-hot-toast';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const CarDetails = () => {
   const { id } = useParams();
   const [car, setCar] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const { user: curentUser } = useAuthContext();
-
   const locationRoute = useLocation();
   const navigate = useNavigate();
+
+  const axiosIntSecure = useAxiosSecure();
 
   useEffect(() => {
     axiosInt
@@ -22,6 +27,20 @@ const CarDetails = () => {
       .then(res => {
         setCar(res.data);
         setLoading(false);
+
+        // Set default start and end dates based on car's availability
+        const carAvailability = new Date(res.data.availability);
+        const currentDate = new Date();
+
+        // If car availability is earlier than today, set startDate to today
+        setStartDate(
+          carAvailability > currentDate ? carAvailability : currentDate
+        );
+
+        // Set endDate to one day after the startDate by default
+        const defaultEndDate = new Date(carAvailability);
+        defaultEndDate.setDate(defaultEndDate.getDate() + 1);
+        setEndDate(defaultEndDate);
       })
       .catch(err => {
         console.log(err);
@@ -32,68 +51,6 @@ const CarDetails = () => {
   if (loading) {
     return <IsLodding />;
   }
-
-
-  const handleBookNow = () => {
-    const { model, price, availability, location } = car;
-
-    Swal.fire({
-      title: 'Confirm Your Booking',
-      html: `
-        <div style="text-align: left;">
-          <p><strong>Car Model:</strong> ${model}</p>
-          <p><strong>Price Per Day:</strong> $${price}</p>
-          <p><strong>Location:</strong> ${location}</p>
-          <p><strong>Available from:</strong> ${
-            availability && format(new Date(availability), 'dd/MM/yyyy')
-          }</p>
-        </div>
-      `,
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonText: 'Confirm Booking',
-      cancelButtonText: 'Cancel',
-    }).then(result => {
-      if (result.isConfirmed) {
-        const bookingData = {
-          carId: id,
-          model,
-          price,
-          location,
-          bookingDate: availability,
-          bookingEndDate: availability,
-          bookingStatus: 'Pending',
-          owner: owner,
-          hirer: curentUser,
-          image,
-          
-        };
-
-        if (curentUser?.email === owner.email) {
-          toast.error('Action not permitted!');
-          return;
-        }
-        axiosInt
-          .post('/bookings', bookingData)
-          .then(() => {
-            Swal.fire({
-              title: 'Booking Confirmed!',
-              text: `Your booking for ${model} has been confirmed.`,
-              icon: 'success',
-            });
-            navigate("/available-cars")
-          })
-          .catch(err => {
-            console.error(err);
-            Swal.fire({
-              title: 'Booking Failed!',
-              text: 'Something went wrong. Please try again.',
-              icon: 'error',
-            });
-          });
-      }
-    });
-  };
 
   const {
     model,
@@ -106,6 +63,55 @@ const CarDetails = () => {
     owner,
     postDate,
   } = car;
+
+  const handleBooking = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmBooking = () => {
+    // Ensure dates are selected and valid
+    if (!startDate || !endDate) {
+      toast.error('Please select both start and end dates.');
+      return;
+    }
+    if (startDate >= endDate) {
+      toast.error('End date must be after the start date.');
+      return;
+    }
+
+    const bookingData = {
+      carId: id,
+      model,
+      price,
+      location,
+      bookingDate: startDate,
+      bookingEndDate: endDate,
+      bookingStatus: 'Pending',
+      owner: owner,
+      hirer: curentUser,
+      image,
+    };
+
+    if (curentUser?.email === owner?.email) {
+      toast.error('You cannot book your own car!');
+      setShowModal(false);
+      return;
+    }
+
+    // Assuming axiosIntSecure is a configured Axios instance for secure requests
+    axiosIntSecure
+      .post(`/bookings?email=${curentUser.email}`, bookingData)
+      .then(() => {
+        toast.success('Booking confirmed!');
+        navigate('/my-bokings'); // Navigate to the user's bookings page
+        setShowModal(false); // Close the modal
+      })
+      .catch(err => {
+        console.error(err);
+        toast.error('Booking failed. Please try again later.');
+        setShowModal(false);
+      });
+  };
 
   return (
     <div className="bg-bg wrap bg-card p-5 rounded-lg shadow-lg my-20">
@@ -126,8 +132,8 @@ const CarDetails = () => {
             Price Per Day:{' '}
             <span className="font-semibold text-green-600">${price}</span>
           </p>
-          <p className=" text-base text-text/80 mt-2">Location: {location}</p>
-          <p className=" text-base text-text/80 mt-2">
+          <p className="text-base text-text/80 mt-2">Location: {location}</p>
+          <p className="text-base text-text/80 mt-2">
             Available from:{' '}
             {availability && format(new Date(availability), 'dd/MM/yyyy')}
           </p>
@@ -148,26 +154,27 @@ const CarDetails = () => {
           {/* Car Description */}
           <div className="mt-6">
             <h2 className="text-xl font-semibold">Car Description:</h2>
-            <p className=" text-base text-text/80 mt-2">{description}</p>
+            <p className="text-base text-text/80 mt-2">{description}</p>
           </div>
 
           {/* Owner Information */}
           <div className="mt-3">
-            <h2 className="text font-semibold">Owner Information:</h2>
+            <h2 className="font-semibold">Owner Information:</h2>
             <div className="flex items-center gap-3 mt-3">
               <img
                 src={owner?.photo}
-                alt={owner.name}
+                alt={owner?.name}
                 className="w-16 h-16 rounded-full border-2 border-primaryP"
               />
               <div>
-                <p className="text-xl font-semibold">{owner.name}</p>
-                <p className="text-base text-text/80">{owner.email}</p>
+                <p className="text-xl font-semibold">{owner?.name}</p>
+                <p className="text-base text-text/80">{owner?.email}</p>
               </div>
             </div>
           </div>
-          {/* Booking Count & Post Date */}
-          <div className="mt-4  text-base text-text/80">
+
+          {/* Post Date */}
+          <div className="mt-4 text-base text-text/80">
             {postDate && (
               <p>Post Date: {format(new Date(postDate), 'dd/MM/yyyy')}</p>
             )}
@@ -175,15 +182,69 @@ const CarDetails = () => {
 
           {/* Book Now Button */}
           <div className="mt-6 flex gap-5">
-            <button onClick={handleBookNow} className="my-btn">
+            <button onClick={handleBooking} className="my-btn">
               Book Now
             </button>
-            {
-              locationRoute?.state?.page ==="myBooking"  && <Link to="/my-bokings" className='btn bg-prima text-text'>My Bookings</Link>
-            }
+            {locationRoute?.state?.page === 'myBooking' && (
+              <Link to="/my-bookings" className="btn bg-prima text-text">
+                My Bookings
+              </Link>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Booking Modal */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white dark:bg-slate-500 p-6 rounded-lg shadow-lg min-w-[400px] max-w-[500px]">
+            <h2 className="text-lg font-semibold mb-4">Confirm Your Booking</h2>
+            <p>
+              <strong>Model:</strong> {model}
+            </p>
+            <div className="flex justify-between">
+              <p>
+                Price: <strong>${price}</strong>
+              </p>
+              <p>
+                Location: <strong>{location}</strong>
+              </p>
+            </div>
+            <div className="flex flex-col gap-4 mt-4">
+              <label>Start Date</label>
+              <DatePicker
+                selected={startDate}
+                onChange={date => setStartDate(date)}
+                showTimeSelect
+                minDate={new Date(availability)} // Ensure the start date is not before the available date
+                dateFormat="dd/MM/yyyy HH:mm"
+                className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              />
+              <label>End Date</label>
+              <DatePicker
+                selected={endDate}
+                onChange={date => setEndDate(date)}
+                showTimeSelect
+                minDate={startDate} // Ensure the end date is not before the start date
+                dateFormat="dd/MM/yyyy HH:mm"
+                className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+              />
+            </div>
+            <div className="flex justify-between mt-4">
+              <button
+                className="px-4 py-2 bg-gray-300 text-sm font-medium rounded-lg"
+                onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
+                onClick={handleConfirmBooking}>
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

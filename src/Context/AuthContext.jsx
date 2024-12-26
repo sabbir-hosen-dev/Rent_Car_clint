@@ -36,10 +36,13 @@ const AuthContextProvider = ({ children }) => {
           ...newUser,
         });
 
-        axiosInt
-          .post('/jwt', newUser)
+        if (curent?.email) {
+          axiosInt.post('/jwt', newUser)
+          .then(() => setLoadding(false))
           .catch(err => console.log(err.message));
-
+        }
+        
+     
         setLoadding(false);
       } else {
         setUser({

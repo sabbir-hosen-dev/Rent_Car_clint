@@ -2,13 +2,14 @@ import { BiBlock } from 'react-icons/bi';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { useEffect, useState } from 'react';
 import useAuthContext from '../Hook/useAuthContext';
-import { axiosInt } from '../Hook/useAxios';
+import {  useAxiosSecure } from '../Hook/useAxios';
 import toast from 'react-hot-toast';
 
 import { format } from 'date-fns';
 import IsLodding from './IsLodding';
 
 const BookingRequest = () => {
+  const axiosIntSecure = useAxiosSecure()
   const { user } = useAuthContext();
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const BookingRequest = () => {
 
   const fetchBookings = () => {
     setLoading(true);
-    axiosInt
+    axiosIntSecure
       .get(`/booking/request?email=${user.email}`)
       // .get(`/booking/request/status?email=${user.email}&status=Pending`)
       .then(res => {
@@ -35,7 +36,7 @@ const BookingRequest = () => {
   }, []);
 
   const handleStatus = (id, status,carId) => {
-    axiosInt.patch(`/booking/${id}?status=${status}&carId=${carId}`).then(() => {
+   axiosIntSecure.patch(`/booking/${id}?status=${status}&carId=${carId}`).then(() => {
       toast.success('Status Update');
       fetchBookings();
     });

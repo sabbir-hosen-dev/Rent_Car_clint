@@ -8,19 +8,29 @@ import logo from '../../assets/logo.png';
 import { ThemeContext } from '../../Context/ThemeContext';
 import useAuthContext from '../../Hook/useAuthContext';
 import toast from 'react-hot-toast';
+import { axiosInt } from '../../Hook/useAxios';
 
 // eslint-disable-next-line react/prop-types
 function Navbar({  openMenu, setMenu}) {
 
   const [isSticky, setSticky] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
-  const { user, logOut } = useAuthContext();
+  const { user, logOut,setUser } = useAuthContext();
 
   // handle logout
 
   const handleLogOut = () => {
     logOut()
       .then(() => {
+        axiosInt.post("/logout")
+        .then(() => console.log("hi"))
+        .catch(err => console.log(err))
+        setUser({
+          ...user,
+          name: '',
+          email: '',
+          photo: '',
+        });
         toast.success('user Log Out');
       })
       .catch(err => toast.error(err.message));
