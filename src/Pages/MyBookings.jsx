@@ -3,7 +3,7 @@ import useAuthContext from '../Hook/useAuthContext';
 import { axiosInt, useAxiosSecure } from '../Hook/useAxios';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { format } from 'date-fns';
+import { differenceInDays, format } from 'date-fns';
 import { FaCalendarAlt, FaTrashAlt } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 import IsLodding from './IsLodding';
@@ -65,11 +65,12 @@ const MyBookings = () => {
   const getDefaultDate = (date1, date2) => (date2 ? new Date(date2) : date1);
   const handleModifyDate = booking => {
     setSelectedBooking(booking);
-    const startDateValue = booking.bookingDate ? new Date(booking.bookingDate) : null;
+    const startDateValue = booking.bookingDate
+      ? new Date(booking.bookingDate)
+      : null;
     setStartDate(startDateValue);
     setEndDate(getDefaultDate(startDateValue, booking.endDate));
     setShowModal(true);
-  
   };
 
   const handleSaveDateChanges = () => {
@@ -111,6 +112,11 @@ const MyBookings = () => {
 
   return (
     <div className="wrap py-6">
+      <div className=" py-2 mb-3 flex justify-end">
+        <Link to="/DailyRentalPrices" className="my-btn3 ">
+        Daily Rental Prices
+        </Link>
+      </div>
       <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg">
         <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
           <thead className="bg-gray-200 dark:bg-gray-800">
@@ -121,9 +127,11 @@ const MyBookings = () => {
               <th className="py-3 px-4 text-sm font-semibold text-left">
                 Car Model
               </th>
-              <th className="py-3 px-4 text-sm font-semibold text-left"></th>
               <th className="py-3 px-4 text-sm font-semibold text-left">
-                Booking Date
+                Booking Start Date
+              </th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">
+                Booking End Date
               </th>
               <th className="py-3 px-4 text-sm font-semibold text-left">
                 Total Price
@@ -146,28 +154,43 @@ const MyBookings = () => {
                     : 'bg-gray-100 dark:bg-gray-800'
                 }`}>
                 <td className="px-4 py-4">
-                  <img
-                    src={booking.image}
-                    alt={booking.model}
-                    className="w-20 h-14 object-cover rounded"
-                  />
+                  <Link to={`/cars/${booking.carId}`}>
+                    <img
+                      src={booking.image}
+                      alt={booking.model}
+                      className="w-20 h-14 object-cover rounded"
+                    />
+                  </Link>
                 </td>
                 <td className="px-4 py-4">{booking.model}</td>
 
-                <td className="px-4 py-4">
-                  <Link
-                    state={{ page: 'myBooking' }}
-                    to={`/cars/${booking.carId}`}
-                    className="text-emerald-300 underline">
-                    view
-                  </Link>
-                </td>
+                {console.log(booking)}
                 {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
                 <td className="px-4 py-4">
                   {booking.bookingDate &&
                     format(new Date(booking.bookingDate), 'dd/MM/yyyy HH:mm')}
                 </td>
-                <td className="px-4 py-4">${booking.price}</td>
+                <td className="px-4 py-4">
+                  {booking.bookingDate &&
+                    format(
+                      new Date(booking.bookingEndDate),
+                      'dd/MM/yyyy HH:mm'
+                    )}
+                </td>
+                <td className="px-4 py-4">
+                  {booking.bookingDate && booking.bookingEndDate ? (
+                    <p>
+                      $
+                      {differenceInDays(
+                        new Date(booking.bookingEndDate),
+                        new Date(booking.bookingDate)
+                      ) * booking.price}
+                    </p>
+                  ) : (
+                    'N/A'
+                  )}
+                </td>
+
                 <td className="px-4 py-4">
                   <span
                     className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${

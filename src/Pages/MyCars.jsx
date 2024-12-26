@@ -85,7 +85,7 @@ const MyCarsPage = () => {
               </select>
 
               <div className="flex items-center gap-2">
-              <Link to="/booking-data" className="my-btn3 relative">Bookings Data</Link>
+              
               <div className="relative">
                 {request == 0 ? "" : <span className='badge absolute bg-primaryP text-text font-bold -top-4 -right-1'>{request}</span>}
               <Link to="/booking-request"  className="my-btn3 w-full h-full">Request Car</Link>

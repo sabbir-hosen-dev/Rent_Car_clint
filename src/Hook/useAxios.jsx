@@ -8,7 +8,7 @@ import useAuthContext from './useAuthContext';
 // http://localhost:8000
 
 const axiosInt = axios.create({
-  baseURL: 'https://rent-car-server-beta.vercel.app',
+  baseURL: 'http://localhost:8000',
   withCredentials: true,
    
 });
@@ -16,7 +16,7 @@ const axiosInt = axios.create({
 
 
 const axiosIntSecure = axios.create({
-  baseURL: 'https://rent-car-server-beta.vercel.app',
+  baseURL: 'http://localhost:8000',
   withCredentials: true,
   // credentials: true,
    

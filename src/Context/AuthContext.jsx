@@ -24,29 +24,30 @@ const AuthContextProvider = ({ children }) => {
   const [loadding, setLoadding] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, curent => {
-      if (curent) {
+    const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      if (currentUser) {
         const newUser = {
-          name: curent.displayName,
-          email: curent.email,
-          photo: curent.photoURL,
+          name: currentUser.displayName,
+          email: currentUser.email,
+          photo: currentUser.photoURL,
         };
 
-        setUser({
-          ...newUser,
-        });
-
-        if (curent?.email) {
-          axiosInt.post('/jwt', newUser)
-          .then(() => setLoadding(false))
-          .catch(err => console.log(err.message));
+        if (currentUser?.email) {
+          setLoadding(true);
+          axiosInt
+            .post('/jwt', newUser)
+            .then(() => {
+              setUser(newUser);
+              setLoadding(false);
+            })
+            .catch(err => {
+              console.error(err.message);
+              setLoadding(false);
+            });
         }
-        
-     
-        setLoadding(false);
       } else {
+        // Reset user state when no user is authenticated
         setUser({
-          ...user,
           name: '',
           email: '',
           photo: '',
@@ -55,10 +56,12 @@ const AuthContextProvider = ({ children }) => {
       }
     });
 
-    () => {
+    // Cleanup function to unsubscribe when the component unmounts
+    return () => {
       unsubscribe();
     };
-  }, []);
+  }, []); // Empty dependency array to run only once on component mount
+
 
   const googleProvider = new GoogleAuthProvider();
 

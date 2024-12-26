@@ -10,8 +10,8 @@ import Login from '../Pages/AuthPate/Login';
 import SignUp from '../Pages/AuthPate/SIgnUp';
 import MyCars from './../Pages/MyCars';
 import CarDetails from '../Pages/carDetails';
-import BookingsData from '../Pages/BookingsData';
 import BookingRequest from '../Pages/BookingRequest';
+import DailyRentalPrices from '../Pages/DailyRentalPrices';
 
 
 const route = createBrowserRouter([
@@ -53,10 +53,10 @@ const route = createBrowserRouter([
         ),
       },
       {
-        path: '/booking-data',
+        path: '/DailyRentalPrices',
         element: (
           <PrivetRoute>
-            <BookingsData />
+            <DailyRentalPrices/>
           </PrivetRoute>
         ),
       },

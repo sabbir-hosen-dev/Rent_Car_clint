@@ -6,10 +6,7 @@ import { axiosInt } from '../../Hook/useAxios';
 import { format } from 'date-fns';
 
 function MyCar({ car, fetchMycars, setLoading, setEdit }) {
-  const { image, model, price, features, _id,
-    availability } = car;
-
-
+  const { image, model, price, features, _id, availability } = car;
 
   const handleDelete = async id => {
     setLoading(true);
@@ -60,14 +57,17 @@ function MyCar({ car, fetchMycars, setLoading, setEdit }) {
   return (
     <tr>
       <td className="px-4 py-2 ">
-        <img src={image} alt={car.model} className="m-auto w-20 rounded-lg object-cover" />
+        <img
+          src={image}
+          alt={car.model}
+          className="m-auto w-20 rounded-lg object-cover"
+        />
       </td>
       <td className="px-4 py-2 text-text">{model}</td>
       <td className="px-4 py-2 text-text">${price}</td>
       <td className="px-4 py-2 text-text">{features}</td>
       <td className="px-4 py-2 text-text">
-        {format(new Date(
-availability), 'dd/MM/yyy')}
+        {format(new Date(availability), 'dd/MM/yyy')}
       </td>
       <td className="px-4 py-2">
         <div className="flex justify-center gap-3 m-auto">
@@ -76,7 +76,6 @@ availability), 'dd/MM/yyy')}
             className="font-bold text-xl cursor-pointer hover:text-green-400 duration-300 transition-colors"
           />{' '}
           <MdOutlineDeleteOutline
-            
             onClick={() => modernDelete(_id)}
             className="font-bold text-xl cursor-pointer hover:text-red-400 duration-300 transition-colors"
           />

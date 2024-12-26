@@ -1,4 +1,4 @@
-import { format } from 'date-fns'; // For date formatting
+import { differenceInDays, format } from 'date-fns'; // For date formatting
 import IsLodding from './IsLodding';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -195,56 +195,64 @@ const CarDetails = () => {
       </div>
 
       {/* Booking Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white dark:bg-slate-500 p-6 rounded-lg shadow-lg min-w-[400px] max-w-[500px]">
-            <h2 className="text-lg font-semibold mb-4">Confirm Your Booking</h2>
-            <p>
-              <strong>Model:</strong> {model}
-            </p>
-            <div className="flex justify-between">
-              <p>
-                Price: <strong>${price}</strong>
-              </p>
-              <p>
-                Location: <strong>{location}</strong>
-              </p>
-            </div>
-            <div className="flex flex-col gap-4 mt-4">
-              <label>Start Date</label>
-              <DatePicker
-                selected={startDate}
-                onChange={date => setStartDate(date)}
-                showTimeSelect
-                minDate={new Date(availability)} // Ensure the start date is not before the available date
-                dateFormat="dd/MM/yyyy HH:mm"
-                className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              />
-              <label>End Date</label>
-              <DatePicker
-                selected={endDate}
-                onChange={date => setEndDate(date)}
-                showTimeSelect
-                minDate={startDate} // Ensure the end date is not before the start date
-                dateFormat="dd/MM/yyyy HH:mm"
-                className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <button
-                className="px-4 py-2 bg-gray-300 text-sm font-medium rounded-lg"
-                onClick={() => setShowModal(false)}>
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
-                onClick={handleConfirmBooking}>
-                Confirm
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+{/* Booking Modal */}
+{showModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="bg-white dark:bg-card p-6 rounded-lg shadow-lg min-w-[400px] max-w-[500px]">
+      <h2 className="text-lg font-semibold mb-4">Confirm Your Booking</h2>
+      <p>
+        <strong>Model:</strong> {model}
+      </p>
+      <div className="flex justify-between">
+        <p>
+          Price: <strong>${price}</strong>
+        </p>
+        <p>
+          Location: <strong>{location}</strong>
+        </p>
+      </div>
+      <div className="mt-4">
+        <label>Total Price</label>
+        <p className="font-semibold text-xl">
+          ${differenceInDays(new Date(endDate), new Date(startDate)) * price}
+        </p>
+      </div>
+      <div className="flex flex-col gap-4 mt-4">
+        <label>Start Date</label>
+        <DatePicker
+          selected={startDate}
+          onChange={date => setStartDate(date)}
+          showTimeSelect
+          minDate={new Date(availability)} // Ensure the start date is not before the available date
+          dateFormat="dd/MM/yyyy HH:mm"
+          className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+        />
+        <label>End Date</label>
+        <DatePicker
+          selected={endDate}
+          onChange={date => setEndDate(date)}
+          showTimeSelect
+          minDate={startDate} // Ensure the end date is not before the start date
+          dateFormat="dd/MM/yyyy HH:mm"
+          className="bg-input min-w-[224px] border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+        />
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          className="px-4 py-2 bg-gray-300 text-sm font-medium rounded-lg"
+          onClick={() => setShowModal(false)}>
+          Cancel
+        </button>
+        <button
+          className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
+          onClick={handleConfirmBooking}>
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
