@@ -3,10 +3,10 @@ import { Fade, Slide } from "react-awesome-reveal";
 const ContactUs = () => {
   return (
     <div className="py-16 px-6 transition-colors duration-300 dark:bg-[#000903] bg-white">
-      <div className="wrap grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div className="wrap grid grid-cols-1  flex-row-reverse  md:grid-cols-2 gap-8 items-center">
         {/* Left Side - Form */}
         <Slide direction="left">
-          <div>
+          <div className="order-2 md:order-1">
             <h2 className="text-4xl font-extrabold text-black dark:text-white mb-6">
               Contact Us
               <span className="block mt-2 w-16 h-1 bg-[#F04646]"></span>
@@ -75,7 +75,7 @@ const ContactUs = () => {
 
         {/* Right Side - Image */}
         <Fade>
-          <div>
+          <div className="order-1 md:order-2">
    
             <img
               src="https://i.ibb.co.com/sWcTWyM/Call-center-bro.png"
