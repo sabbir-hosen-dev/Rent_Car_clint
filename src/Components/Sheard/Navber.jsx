@@ -51,7 +51,7 @@ function Navbar({  openMenu, setMenu}) {
     <nav
       className={`${
         isSticky ? 'backdrop-blur-lg shadow-lg fixed ' : ''
-      } top-0 left-0 w-full z-50 border-b border-gray-200 transition-all`}>
+      } top-0  left-0 w-full z-50 border-b border-gray-200 transition-all`}>
       <div className="wrap">
         <div className="">
           <div className="wrap flex flex-wrap items-center justify-between mx-auto p-4">

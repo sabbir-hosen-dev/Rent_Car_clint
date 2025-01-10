@@ -116,64 +116,66 @@ const AvailableCars = () => {
       <div
         className={`${
           view === 'grid'
-            ? 'grid grid-cols-1 sm:grid-cols-2   md:grid-cols-3'
-            : ''
+            ? 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-4 items-stretch'
+            : 'grid grid-cols-1  md:grid-cols-2 items-stretch'
         } gap-5`}>
         {data?.map(car => (
           <div key={car._id} className="">
-                  <Helmet>
-        <title>Avalible Cars | Rent Car</title>
-      </Helmet>
+            <Helmet>
+              <title>Avalible Cars | Rent Car</title>
+            </Helmet>
             <Fade>
-            <div
-            
-            className={`card bg-card shadow-md shadow-input  p-4  flex ${
-              view === 'grid' ? 'flex-col' : 'flex-row mb-5 items-center'
-            } gap-4 rounded-lg`}>
-            {/* Car Image */}
-            <div
-              className={`${
-                view === 'grid' ? 'w-full' : 'w-32 h-32'
-              } flex-shrink-0 relative`}>
-              <img
-                src={car.image}
-                alt={car.model}
-                className={`${
-                  view === 'grid' ? 'h-48 w-full' : 'h-full w-full'
-                } object-cover rounded-lg`}
-              />
-              <div className="absolute top-2 right-2 bg-[#0000004e] text-white  text-xs px-2 py-1 rounded-md">
-                ${car.price}
-              </div>
-            </div>
+              <div
+                className={`card bg-card shadow-md shadow-input  p-4  flex ${
+                  view === 'grid' ? 'flex-col' : 'flex-row mb-5 items-center'
+                } h-full gap-4 rounded-lg`}>
+                {/* Car Image */}
+                <div
+                  className={`${
+                    view === 'grid' ? 'w-full' : 'w-[150px] h-32'
+                  } `}>
+                  <img
+                    src={car.image}
+                    alt={car.model}
+                    className={`${
+                      view === 'grid' ? 'h-48 w-full' : 'h-full w-full'
+                    } object-cover rounded-lg`}
+                  />
+                  <div className="absolute top-2 right-2 bg-[#0000004e] text-white  text-xs px-2 py-1 rounded-md">
+                    ${car.price}
+                  </div>
+                </div>
 
-            {/* Car Details */}
-            <div className="flex-1 flex flex-col justify-between">
-              <div>
-                <h2 className="text-lg font-semibold ">{car.model}</h2>
-                <p className="text-sm ">
-                  Location: <span className="font-medium">{car.location}</span>
-                </p>
-                <p className="text-sm ">
-                  Availability:{' '}
-                  <span className="font-medium">
-                    {format(new Date(car.availability), 'dd/MM/yyyy')}
-                  </span>
-                </p>
-              </div>
+                {/* Car Details */}
+                <div className="flex-1 flex-grow flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-lg font-semibold ">{car.model}</h2>
+                    <p className="text-sm ">
+                      <div className="flex  justify-between gap-2">
+                        <span>Location: </span>
+                        <span className="font-medium">{car.location}</span>
+                      </div>
+                      <div className="flex  justify-between gap-2">
+                        <span>Availability:</span>
+                        <span className="font-medium">
+                          {format(new Date(car.availability), 'dd/MM/yyyy')}
+                        </span>
+                      </div>
+                    </p>
+                  </div>
 
-              {/* Book Now Button */}
-              <div className="mt-4">
-                <Link
-                  to={`/cars/${car._id}`}
-                  className={`my-btn2 text-text ${
-                    view === 'list' ? 'btn-sm' : 'w-full block'
-                  }`}>
-                  Book Now
-                </Link>
+                  {/* Book Now Button */}
+                  <div className="mt-4">
+                    <Link
+                      to={`/cars/${car._id}`}
+                      className={`btn btn-sm flex justify-center items-center bg-primaryP hover:bg-primaryP/70 text-xs text-text  ${
+                        view === 'list' ? 'max-w-[90px]' : 'w-full block'
+                      }`}>
+                      Book Now
+                    </Link>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
             </Fade>
           </div>
         ))}

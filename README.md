@@ -1,9 +1,6 @@
-Here’s the README file in Markdown format with the requested content and banner image:
 
-```markdown
 # Clint - Car Rental System (Client Side)
 
-![Clint Home Page](https://i.ibb.co.com/wMgXKCS/rentcar.png)
 
 **Clint** is a feature-rich and responsive car rental web application built using React and associated libraries. The platform allows users to easily view, book, add, update, and delete cars in the rental system, while maintaining a smooth user experience with various functionalities such as JWT-based authentication, real-time availability updates, and daily rental price analytics.
 
@@ -35,6 +32,10 @@ You can view the live application here:
 - **Dashboard Overview**: Admins can get an overview of system statistics, including total bookings, revenue, and cars available.
 
 ---
+
+
+![Clint Home Page](https://i.ibb.co.com/wMgXKCS/rentcar.png)
+
 
 ## How to Use
 

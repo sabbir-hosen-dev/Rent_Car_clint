@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import vedio from "../../assets/vedio.mp4"
+import Navbar from './../Sheard/Navber';
 
 function Banner() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative w-full h-[92.4vh] overflow-hidden">
+  <div className="">
+   
+    <section className="relative w-full h-[86vh] overflow-hidden">
+   
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
@@ -15,6 +19,10 @@ function Banner() {
         muted
         playsInline
       ></video>
+
+        <div className="w-full backdrop-blur-lg shadow-lg z-50 fixed">
+          <Navbar />
+        </div>
 
       {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-70"></div>
@@ -35,6 +43,7 @@ function Banner() {
         </button>
       </div>
     </section>
+  </div>
   );
 }
 
