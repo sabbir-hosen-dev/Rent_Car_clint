@@ -8,7 +8,7 @@ function Banner() {
   return (
   <div className="">
    
-    <section className="relative w-full h-[86vh] overflow-hidden">
+    <section className="relative w-full h-[80vh] overflow-hidden">
    
       {/* Background Video */}
       <video

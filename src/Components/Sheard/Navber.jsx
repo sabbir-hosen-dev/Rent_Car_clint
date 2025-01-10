@@ -53,7 +53,7 @@ function Navbar() {
   return (
     <nav
       className={`${
-        isSticky ? 'backdrop-blur-lg shadow-lg fixed ' : ''
+        isSticky ? 'backdrop-blur-lg shadow-lg fixed  ' : 'bg-bgB/20'
       } top-0  left-0 w-full z-50 border-b border-gray-200  transition-all`}>
       <div className="wrap">
         <div className="">
