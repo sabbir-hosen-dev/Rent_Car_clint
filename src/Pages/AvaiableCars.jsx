@@ -141,7 +141,7 @@ const AvailableCars = () => {
                       view === 'grid' ? 'h-48 w-full' : 'h-full w-full'
                     } object-cover rounded-lg`}
                   />
-                  <div className="absolute top-2 right-2 bg-[#0000004e] text-white  text-xs px-2 py-1 rounded-md">
+                  <div className="absolute top-5 right-5 bg-[#0000004e] text-white  text-xs px-2 py-1 rounded-md">
                     ${car.price}
                   </div>
                 </div>

@@ -72,6 +72,12 @@ const CarDetails = () => {
   };
 
   const handleConfirmBooking = () => {
+
+    if(!curentUser.email){
+      toast.error("Please login first");
+      navigate("/login")
+      return;
+    }
     // Ensure dates are selected and valid
     if (!startDate || !endDate) {
       toast.error('Please select both start and end dates.');
@@ -112,6 +118,7 @@ const CarDetails = () => {
     }
   
     setPanding(false);
+
   
     // Submit booking data via Axios
     axiosIntSecure
@@ -169,7 +176,7 @@ const CarDetails = () => {
             </p>
           </Slide>
 
-          {/* Features */}
+          {/* Features */}a
           <Fade duration="2500">
             <div className="mt-4">
               <h2 className="text-xl font-semibold text-text">Features:</h2>

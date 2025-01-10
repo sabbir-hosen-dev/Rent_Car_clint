@@ -1,7 +1,7 @@
 import { BiSun } from 'react-icons/bi';
 import { BiMoon } from 'react-icons/bi';
 import { useState, useEffect, useContext } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import logo from '../../assets/logo.png';
 
@@ -11,21 +11,20 @@ import toast from 'react-hot-toast';
 import { axiosInt } from '../../Hook/useAxios';
 
 // eslint-disable-next-line react/prop-types
-function Navbar() {
+function Navbar({  openMenu, setMenu}) {
+
   const [isSticky, setSticky] = useState(false);
-  const { theme, setTheme,openMenu, setMenu } = useContext(ThemeContext);
-  const { user, logOut, setUser } = useAuthContext();
-  const location = useLocation();
+  const { theme, setTheme } = useContext(ThemeContext);
+  const { user, logOut,setUser } = useAuthContext();
 
   // handle logout
 
   const handleLogOut = () => {
     logOut()
       .then(() => {
-        axiosInt
-          .post('/logout')
-          .then(() => console.log('hi'))
-          .catch(err => console.log(err));
+        axiosInt.post("/logout")
+        .then(() => console.log("hi"))
+        .catch(err => console.log(err))
         setUser({
           ...user,
           name: '',
@@ -40,8 +39,7 @@ function Navbar() {
   // Handle scroll to add blur effect to the navbar
   useEffect(() => {
     const handleScroll = () => {
-        setSticky(location.pathname == "/" ? false : window.scrollY > 500);
-
+      setSticky(window.scrollY > 500);
     };
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -49,12 +47,11 @@ function Navbar() {
     };
   }, []);
 
-
   return (
     <nav
       className={`${
         isSticky ? 'backdrop-blur-lg shadow-lg fixed ' : ''
-      } top-0  left-0 w-full z-50 border-b border-gray-200  transition-all`}>
+      } top-0  left-0 w-full z-50 border-b border-gray-200 transition-all`}>
       <div className="wrap">
         <div className="">
           <div className="wrap flex flex-wrap items-center justify-between mx-auto p-4">
@@ -86,11 +83,11 @@ function Navbar() {
               </svg>
             </button>
             <div
-              onClick={() => setMenu(false)}
+             onClick={() => setMenu(false)}
               className={`${
                 openMenu ? 'block' : 'hidden'
               } w-full lg:block lg:w-auto`}>
-              <ul className="font-medium flex  z-50 flex-col justify-center items-center lg:border-0 p-4 lg:p-0 lg:px-4 mt-4 border border-gray-100 rounded-lg  lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 text-text gap-3 ">
+              <ul className="font-medium flex flex-col justify-center items-center lg:border-0 p-4 lg:p-0 lg:px-4 mt-4 border border-gray-100 rounded-lg  lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0 text-text gap-3 ">
                 <NavLink
                   onClick={() => setMenu(false)}
                   to="/"
@@ -127,7 +124,7 @@ function Navbar() {
                   </>
                 )}
               </ul>
-              <div className=" lg:hidden z-50 flex flex-col gap-3">
+              <div className=" lg:hidden flex flex-col gap-3">
                 <div
                   className="cursor-pointer mx-auto mt-3 text-text text hover:text/80 transition-colors duration-300"
                   onClick={() => {
@@ -146,7 +143,7 @@ function Navbar() {
                         alt="User"
                       />
                     ) : (
-                      <div className="w-10 h-10 z-50 flex justify-center items-center bg-pin rounded-full">
+                      <div className="w-10 h-10 flex justify-center items-center bg-pin rounded-full">
                         <h1 className="font-bold text-white text-2xl">
                           {user?.name?.charAt(0).toUpperCase()}
                         </h1>
@@ -171,7 +168,7 @@ function Navbar() {
                 )}
               </div>
             </div>
-            <div className=" hidden z-50 lg:flex items-center gap-3">
+            <div className=" hidden lg:flex items-center gap-3">
               <div
                 className="cursor-pointer text-text hover:text/80 transition-colors duration-300"
                 onClick={() => {

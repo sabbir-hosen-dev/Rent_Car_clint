@@ -10,6 +10,7 @@ const ThemeContextProvider = ({ children }) => {
     return storedTheme === "true" || storedTheme === null; 
   });
 
+  const [openMenu, setMenu] = useState(false);
 
   useEffect(() => {
     document.body.classList.remove("dark", "light");
@@ -20,7 +21,9 @@ const ThemeContextProvider = ({ children }) => {
 
   const value = {
     theme,
-    setTheme
+    setTheme,
+    openMenu,
+     setMenu
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
