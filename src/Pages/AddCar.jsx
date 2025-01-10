@@ -33,7 +33,7 @@ function AddCar() {
     // Validate the form fields
 
     const validationErrors = {};
-    if (newCar.model.split(' ').length < 2) {
+    if (newCar.model.length(' ').length < 2) {
       validationErrors.model = 'Car model must contain at least two words.';
     }
     if (newCar.description.split(' ').length < 5) {
@@ -168,8 +168,10 @@ function AddCar() {
               </label>
               <DatePicker
                 required
+                dateFormat="dd/MM/yyyy"
                 selected={availability}
                 onChange={date => setAvailability(date)}
+                minDate={new Date()}
                 className="bg-input min-w-[224px]  border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholderText="Select Availability Date"
               />

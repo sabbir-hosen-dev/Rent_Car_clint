@@ -1,4 +1,4 @@
-import { differenceInDays, format } from 'date-fns'; // For date formatting
+import { addDays, differenceInDays, format } from 'date-fns'; // For date formatting
 import IsLodding from './IsLodding';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -17,8 +17,8 @@ const CarDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  
-  const [panding, setPanding] = useState(true)
+
+  const [panding, setPanding] = useState(true);
   const { user: curentUser } = useAuthContext();
   const locationRoute = useLocation();
   const navigate = useNavigate();
@@ -34,17 +34,16 @@ const CarDetails = () => {
 
         // Set default start and end dates based on car's availability
         const carAvailability = new Date(res.data.availability);
+
         const currentDate = new Date();
 
-        // If car availability is earlier than today, set startDate to today
-        setStartDate(
-          carAvailability > currentDate ? carAvailability : currentDate
-        );
+        const defaultStartDate =
+          carAvailability > currentDate ? carAvailability : currentDate;
 
-        // Set endDate to one day after the startDate by default
-        const defaultEndDate = new Date(carAvailability);
-        defaultEndDate.setDate(defaultEndDate.getDate() + 1);
-        setEndDate(defaultEndDate);
+        // Set startDate and endDate dynamically
+        setStartDate(defaultStartDate);
+        setEndDate(addDays(defaultStartDate, 1));
+
       })
       .catch(err => {
         console.log(err);
@@ -72,19 +71,26 @@ const CarDetails = () => {
     setShowModal(true);
   };
 
-
   const handleConfirmBooking = () => {
-
     // Ensure dates are selected and valid
     if (!startDate || !endDate) {
       toast.error('Please select both start and end dates.');
       return;
     }
+  
+    // Check if the end date is after the start date
     if (startDate >= endDate) {
       toast.error('End date must be after the start date.');
       return;
     }
-
+  
+    // Ensure at least 1 day is selected
+    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+    if (new Date(endDate) - new Date(startDate) < oneDay) {
+      toast.error('The booking must be for a minimum of 1 day.');
+      return;
+    }
+  
     const bookingData = {
       carId: id,
       model,
@@ -97,21 +103,22 @@ const CarDetails = () => {
       hirer: curentUser,
       image,
     };
-
+  
+    // Prevent user from booking their own car
     if (curentUser?.email === owner?.email) {
       toast.error('You cannot book your own car!');
       setShowModal(false);
       return;
     }
-
+  
     setPanding(false);
-
-    // Assuming axiosIntSecure is a configured Axios instance for secure requests
+  
+    // Submit booking data via Axios
     axiosIntSecure
       .post(`/bookings?email=${curentUser.email}`, bookingData)
       .then(() => {
         toast.success('Booking confirmed!');
-        setPanding(true)
+        setPanding(true);
         navigate('/my-bokings'); // Navigate to the user's bookings page
         setShowModal(false); // Close the modal
       })
@@ -121,6 +128,7 @@ const CarDetails = () => {
         setShowModal(false);
       });
   };
+  
 
   return (
     <div className="bg-bg wrap bg-card p-5 rounded-lg shadow-lg my-20">
@@ -163,67 +171,65 @@ const CarDetails = () => {
 
           {/* Features */}
           <Fade duration="2500">
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold text-text">Features:</h2>
-            <ul className="list-disc pl-6 mt-2 text-text/80">
-              {features.split(', ').map((feature, index) => (
-                <li key={index} className="text-lg capitalize">
-                  {feature.charAt(0).toUpperCase() +
-                    feature.slice(1).toLowerCase()}
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div className="mt-4">
+              <h2 className="text-xl font-semibold text-text">Features:</h2>
+              <ul className="list-disc pl-6 mt-2 text-text/80">
+                {features.split(', ').map((feature, index) => (
+                  <li key={index} className="text-lg capitalize">
+                    {feature.charAt(0).toUpperCase() +
+                      feature.slice(1).toLowerCase()}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Fade>
 
           {/* Car Description */}
-            <Fade duration="3000">
+          <Fade duration="3000">
             <div className="mt-6">
-            <h2 className="text-xl font-semibold">Car Description:</h2>
-            <p className="text-base text-text/80 mt-2">{description}</p>
-          </div>
-            </Fade>
-
-          {/* Owner Information */}
-              <Fade duration="3500">
-              <div className="mt-3">
-            <h2 className="font-semibold">Owner Information:</h2>
-            <div className="flex items-center gap-3 mt-3">
-              <img
-                src={owner?.photo}
-                alt={owner?.name}
-                className="w-16 h-16 rounded-full border-2 border-primaryP"
-              />
-              <div>
-                <p className="text-xl font-semibold">{owner?.name}</p>
-                <p className="text-base text-text/80">{owner?.email}</p>
-              </div>
+              <h2 className="text-xl font-semibold">Car Description:</h2>
+              <p className="text-base text-text/80 mt-2">{description}</p>
             </div>
-          </div>
-              
-
-          {/* Post Date */}
-          <div className="mt-4 text-base text-text/80">
-            {postDate && (
-              <p>Post Date: {format(new Date(postDate), 'dd/MM/yyyy')}</p>
-            )}
-          </div>
           </Fade>
 
+          {/* Owner Information */}
+          <Fade duration="3500">
+            <div className="mt-3">
+              <h2 className="font-semibold">Owner Information:</h2>
+              <div className="flex items-center gap-3 mt-3">
+                <img
+                  src={owner?.photo}
+                  alt={owner?.name}
+                  className="w-16 h-16 rounded-full border-2 border-primaryP"
+                />
+                <div>
+                  <p className="text-xl font-semibold">{owner?.name}</p>
+                  <p className="text-base text-text/80">{owner?.email}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Post Date */}
+            <div className="mt-4 text-base text-text/80">
+              {postDate && (
+                <p>Post Date: {format(new Date(postDate), 'dd/MM/yyyy')}</p>
+              )}
+            </div>
+          </Fade>
 
           {/* Book Now Button */}
-            <Fade>
+          <Fade>
             <div className="mt-6 flex gap-5">
-            <button onClick={handleBooking} className="my-btn">
-              Book Now
-            </button>
-            {locationRoute?.state?.page === 'myBooking' && (
-              <Link to="/my-bookings" className="btn bg-prima text-text">
-                My Bookings
-              </Link>
-            )}
-          </div>
-            </Fade>
+              <button onClick={handleBooking} className="my-btn">
+                Book Now
+              </button>
+              {locationRoute?.state?.page === 'myBooking' && (
+                <Link to="/my-bookings" className="btn bg-prima text-text">
+                  My Bookings
+                </Link>
+              )}
+            </div>
+          </Fade>
         </div>
       </div>
 

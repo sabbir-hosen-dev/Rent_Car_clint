@@ -19,9 +19,13 @@ const MyBookings = () => {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [panding,setPanding] = useState(true)
+  const [startDate, setStartDate] = useState(new Date()); 
+  const [endDate, setEndDate] = useState(new Date());     
+  
+  // eslint-disable-next-line no-unused-vars
+  const [panding, setPanding] = useState(true);
+
+
 
   const axiosIntSecure = useAxiosSecure();
 
@@ -45,6 +49,13 @@ const MyBookings = () => {
     fetchBookings();
   }, []);
 
+  useEffect(() => {
+    if (selectedBooking) {
+      setStartDate(new Date(selectedBooking.bookingDate));
+      setEndDate(new Date(selectedBooking.bookingEndDate));
+    }
+  }, [selectedBooking]);
+  
   const handleCancelBooking = id => {
     Swal.fire({
       title: 'Are you sure?',
@@ -65,14 +76,10 @@ const MyBookings = () => {
       }
     });
   };
-  const getDefaultDate = (date1, date2) => (date2 ? new Date(date2) : date1);
   const handleModifyDate = booking => {
     setSelectedBooking(booking);
-    const startDateValue = booking.bookingDate
-      ? new Date(booking.bookingDate)
-      : null;
-    setStartDate(startDateValue);
-    setEndDate(getDefaultDate(startDateValue, booking.endDate));
+    setStartDate(booking.bookingDate);
+    setEndDate(booking.bookingEndDate);
     setShowModal(true);
   };
 
@@ -82,42 +89,51 @@ const MyBookings = () => {
       toast.error('Please select valid dates');
       return;
     }
-
+  
     if (startDate >= endDate) {
       toast.error('End date must be after the start date');
       return;
     }
-
+  
+    // Ensure at least 1 day is selected
+    const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+    if (new Date(endDate) - new Date(startDate) < oneDay) {
+      toast.error('The booking must be for a minimum of 1 day.');
+      return;
+    }
+  
     setLoading(true); // Start loading state
     const updatedBooking = {
       ...selectedBooking,
       bookingDate: startDate,
       bookingEndDate: endDate,
     };
-
-    setPanding(true)
+  
+    setPanding(true);
     axiosIntSecure
-      .put(`/bookings/${selectedBooking._id}`, updatedBooking)
+      .patch(`/booking/update/${selectedBooking._id}`, updatedBooking)
       .then(() => {
         toast.success('Booking dates updated successfully');
-        setPanding(false)
-        fetchBookings();
-        setShowModal(false);
+        setPanding(false);
+        fetchBookings(); // Refresh bookings list
+        setShowModal(false); // Close the modal
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err.message);
         toast.error('Failed to update dates');
       })
       .finally(() => {
         setLoading(false); // End loading state
       });
   };
+  
 
   if (loading) return <IsLodding />;
   if (error) return <DataNotFound />;
 
   return (
     <div className="wrap py-6">
-            <Helmet>
+      <Helmet>
         <title>My Bookings | Rent Car</title>
       </Helmet>
       <div className=" py-2 mb-3 flex justify-end">
@@ -173,7 +189,6 @@ const MyBookings = () => {
                   </td>
                   <td className="px-4 py-4">{booking.model}</td>
 
-                
                   {/* {booking.bookingDate && setEndDate(booking.endDate || booking.bookingDate)} */}
                   <td className="px-4 py-4">
                     {booking.bookingDate &&
@@ -263,15 +278,17 @@ const MyBookings = () => {
             <div className="flex flex-col gap-4">
               <label>Start Date</label>
               <DatePicker
-                selected={startDate}
+                 selected={startDate instanceof Date ? startDate : null}
                 onChange={date => setStartDate(date)}
                 showTimeSelect
+                minDate={new Date(startDate)}
                 dateFormat="dd/MM/yyyy HH:mm"
                 className="bg-input min-w-[224px]  border border-gray-300 text-text text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
               />
               <label>End Date</label>
               <DatePicker
-                selected={endDate}
+                 selected={endDate instanceof Date ? endDate : null}
+                 minDate={new Date(startDate)}
                 onChange={date => setEndDate(date)}
                 showTimeSelect
                 dateFormat="dd/MM/yyyy HH:mm"
@@ -285,7 +302,7 @@ const MyBookings = () => {
                 Cancel
               </button>
               <button
-                disabled={!panding}
+                // disabled={!panding}
                 className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg"
                 onClick={handleSaveDateChanges}>
                 Confirm
