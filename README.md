@@ -34,7 +34,7 @@ You can view the live application here:
 ---
 
 
-![Clint Home Page](https://i.ibb.co.com/bHp9jyH/markuphero-xls-MZql0-Qcepde4k-Y6-Ty.png)
+
 
 
 ## How to Use
@@ -66,6 +66,15 @@ You can view the live application here:
 - **Authentication**: Firebase Authentication, JWT
 - **Data Visualization**: Recharts
 - **Other Libraries**: Axios, Framer Motion, SweetAlert2, React Hot Toast
+
+---
+
+![Clint Home Page](https://i.ibb.co.com/bHp9jyH/markuphero-xls-MZql0-Qcepde4k-Y6-Ty.png)
+<img src="https://i.ibb.co.com/bHp9jyH/markuphero-xls-MZql0-Qcepde4k-Y6-Ty.png" alt="Clint Home Page" style="width: 100%; display: block;">
+
+
+
+
 
 ---
 
