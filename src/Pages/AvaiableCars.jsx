@@ -124,11 +124,12 @@ const AvailableCars = () => {
             <Helmet>
               <title>Avalible Cars | Rent Car</title>
             </Helmet>
-            <Fade>
+            <Fade className='h-full'>
+            {/* min-h-[383px] */}
               <div
-                className={`card bg-card shadow-md shadow-input  p-4  flex ${
-                  view === 'grid' ? 'flex-col' : 'flex-row mb-5 items-center'
-                } h-full gap-4 rounded-lg`}>
+                className={`card bg-card shadow-md shadow-input h-full  p-4  flex ${
+                  view === 'grid' ? 'flex-col  ' : 'flex-row mb-5 items-center'
+                }  gap-4 rounded-lg`}>
                 {/* Car Image */}
                 <div
                   className={`${
@@ -168,7 +169,7 @@ const AvailableCars = () => {
                   <div className="mt-4">
                     <Link
                       to={`/cars/${car._id}`}
-                      className={`btn btn-sm flex justify-center items-center bg-primaryP hover:bg-primaryP/70 text-xs text-text  ${
+                      className={`btn btn-sm outline-none border-none flex justify-center items-center bg-primaryP hover:bg-primaryP/70 text-xs text-text  ${
                         view === 'list' ? 'max-w-[90px]' : 'w-full block'
                       }`}>
                       Book Now
