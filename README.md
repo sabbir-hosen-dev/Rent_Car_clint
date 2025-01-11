@@ -34,7 +34,7 @@ You can view the live application here:
 ---
 
 
-![Clint Home Page](https://i.ibb.co.com/wMgXKCS/rentcar.png)
+![Clint Home Page](https://i.ibb.co.com/bHp9jyH/markuphero-xls-MZql0-Qcepde4k-Y6-Ty.png)
 
 
 ## How to Use
