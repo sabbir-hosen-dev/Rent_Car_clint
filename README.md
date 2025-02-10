@@ -1,61 +1,52 @@
-
 # Clint - Car Rental System (Client Side)
 
-
-**Clint** is a feature-rich and responsive car rental web application built using React and associated libraries. The platform allows users to easily view, book, add, update, and delete cars in the rental system, while maintaining a smooth user experience with various functionalities such as JWT-based authentication, real-time availability updates, and daily rental price analytics.
+**Clint** is a modern, feature-rich, and responsive car rental web application built using **React** and associated technologies. The platform provides users with a seamless experience for browsing, booking, managing, and analyzing rental cars with real-time availability updates and secure authentication.
 
 ---
 
 ## Live Demo
 
-You can view the live application here:  
-[Clint Live Demo](https://rent-car-881ec.web.app/)
+Explore the live application here:  
+[**Clint Live Demo**](https://rent-car-881ec.web.app/)
 
 ---
 
 ## Features
 
-### User Features:
-- **Browse Available Cars**: View and filter available cars for booking based on price, availability, and location.
-- **Add New Car**: Authenticated users can add new cars to the inventory with detailed information such as model, daily rental price, and vehicle registration number.
-- **Update Car Information**: Modify car details such as price, availability, and features.
-- **Delete Cars**: Remove cars from the system through a confirmation dialog.
-- **Search Functionality**: Search for cars based on car model, brand, or location.
-- **Booking Management**: Users can view their booking history, including the ability to cancel or modify a booking.
-- **Real-Time Updates**: View and manage car availability and booking statuses.
-- **Charts for Daily Rental Price**: Visual representation of daily rental price trends using **Recharts**.
+### User Features
+- **Browse & Filter Cars**: Search for available rental cars based on price, availability, and location.
+- **Car Management**: Authenticated users can add, update, and delete car listings.
+- **Booking System**: Users can book, cancel, and manage their bookings with real-time updates.
+- **Secure Authentication**: User authentication via **Firebase Authentication** and **JWT**.
+- **Real-Time Data Updates**: Availability and booking statuses update dynamically.
+- **Search Functionality**: Easily find cars by model, brand, or location.
+- **Daily Rental Price Analysis**: Visualize rental trends using **Recharts**.
 
-### Admin Features:
-- **Manage Cars**: Admins can view, add, update, and delete cars from the system.
-- **User Authentication**: Secure login and registration using Firebase Authentication.
-- **JWT-based Authentication**: Ensures secure access to private routes (e.g., Add Car, My Cars, My Bookings).
-- **Dashboard Overview**: Admins can get an overview of system statistics, including total bookings, revenue, and cars available.
+### Admin Features
+- **Car & User Management**: Admins can view, add, update, and delete cars and manage user bookings.
+- **Comprehensive Dashboard**: Get insights into total bookings, revenue, and available cars.
+- **Secure Access Control**: Admin-only features protected by JWT-based authentication.
 
 ---
-
-
-
-
 
 ## How to Use
 
 1. **Access the Platform**:
-   - Visit the live website using the link provided above.
-   - Register for a new account or log in using existing credentials.
+   - Visit the live website using the link above.
+   - Register or log in with existing credentials.
 
-2. **Browse Cars**:
-   - Use the homepage search bar or filters to find cars based on your preferences.
+2. **Search & Browse**:
+   - Use filters and the search bar to find cars that match your requirements.
 
 3. **Book a Car**:
-   - Click on a car listing to view its details and availability.
-   - Select your desired dates and confirm the booking.
+   - Select a car, choose rental dates, and confirm your booking.
 
-4. **Add/Manage Cars** (Authenticated Users):
-   - Navigate to the "My Cars" section to add or update car listings.
-   - Manage your bookings and car inventory seamlessly.
+4. **Manage Your Cars (For Owners)**:
+   - Navigate to the "My Cars" section to add or update listings.
+   - Manage bookings and availability.
 
 5. **Admin Dashboard**:
-   - Admin users can access the admin dashboard to oversee system activities, update car listings, and manage user bookings.
+   - Access detailed analytics, update car listings, and oversee system activity.
 
 ---
 
@@ -65,47 +56,50 @@ You can view the live application here:
 - **State Management**: React Query
 - **Authentication**: Firebase Authentication, JWT
 - **Data Visualization**: Recharts
-- **Other Libraries**: Axios, Framer Motion, SweetAlert2, React Hot Toast
+- **Additional Libraries**: Axios, Framer Motion, SweetAlert2, React Hot Toast
 
 ---
 
-<img src="https://i.ibb.co.com/bHp9jyH/markuphero-xls-MZql0-Qcepde4k-Y6-Ty.png" alt="Clint Home Page" style="width: 100%; display: block;">
-
-
-
-
-
----
-
-## Installation
+## Installation & Setup
 
 To run the project locally, follow these steps:
 
-1. Clone the repository:
+### Prerequisites
+Ensure you have the following installed:
+- [Node.js](https://nodejs.org/) (v16+ recommended)
+- [Vite](https://vitejs.dev/)
+
+### Steps
+1. **Clone the repository**:
    ```bash
    git clone <repository-link>
    cd clint
    ```
 
-2. Install dependencies:
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. Set up environment variables:
+3. **Set up environment variables**:
    - Create a `.env` file in the root directory.
    - Add the following:
      ```env
      VITE_API_URL=<Your API Endpoint>
      VITE_FIREBASE_API_KEY=<Your Firebase API Key>
+     VITE_FIREBASE_AUTH_DOMAIN=<Your Firebase Auth Domain>
+     VITE_FIREBASE_PROJECT_ID=<Your Firebase Project ID>
+     VITE_FIREBASE_STORAGE_BUCKET=<Your Firebase Storage Bucket>
+     VITE_FIREBASE_MESSAGING_SENDER_ID=<Your Firebase Messaging Sender ID>
+     VITE_FIREBASE_APP_ID=<Your Firebase App ID>
      ```
 
-4. Start the development server:
+4. **Start the development server**:
    ```bash
    npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`.
+5. **Open your browser** and navigate to `http://localhost:3000`.
 
 ---
 
@@ -129,15 +123,13 @@ clint/
 
 ## License
 
-This project is licensed under the MIT License. Feel free to use and modify it as per your needs.
+This project is licensed under the **MIT License**. You are free to use and modify it as needed.
 
 ---
 
 ## Developer Contact
 
-For more details, contact the developer:  
-[Portfolio](https://sabbirhosen.netlify.app/)  
-Email: [tssabbirhosen@gmail.com](mailto:tssabbirhosen@gmail.com)
-```
+For inquiries or collaborations, contact:
+- **Portfolio**: [sabbirhosen.netlify.app](https://sabbirhosen.netlify.app/)
+- **Email**: [tssabbirhosen@gmail.com](mailto:tssabbirhosen@gmail.com)
 
-This code includes all the details you asked for, including the banner image, live link, and additional content. Let me know if you need further adjustments!
